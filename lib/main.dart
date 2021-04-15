@@ -15,7 +15,8 @@ class EHealthcareApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         accentColor: kPrimaryColor,
-        backgroundColor: kBackColor
+        backgroundColor: kBackColor,
+        primaryColor: kPrimaryColor
       ),
       home: SplashScreen(),
     );

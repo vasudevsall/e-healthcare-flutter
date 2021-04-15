@@ -2,11 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
+import 'package:http/http.dart' as http;
+import 'package:e_healthcare/widgets/logo.dart';
 
 class SplashScreen extends StatelessWidget {
 
+  void checkLogin() async {
+    print('Hello');
+    var url = Uri.parse('https://e-healthcare-rest.herokuapp.com/login-verify');
+    try {
+      var response = await http.get(url);
+      print(response.body);
+      print(response.statusCode);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    checkLogin();
     return Scaffold(
       body: Container(
         color: kPrimaryColor,
@@ -14,23 +29,7 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(
-                  'images/logo.png',
-                  height: 100.0,
-                ),
-                Text(
-                  '- Healthcare',
-                  style: GoogleFonts.roboto(
-                    color: Colors.white,
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.w500
-                  ),
-                )
-              ],
-            ),
+            Logo(),
             SleekCircularSlider(
               appearance: CircularSliderAppearance(
                 spinnerMode: true,

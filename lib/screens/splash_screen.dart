@@ -1,26 +1,45 @@
+import 'dart:io';
+
+import 'package:e_healthcare/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
-import 'package:http/http.dart' as http;
 import 'package:e_healthcare/widgets/logo.dart';
+import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:cookie_jar/cookie_jar.dart';
+import 'package:path_provider/path_provider.dart';
 
 class SplashScreen extends StatelessWidget {
 
-  void checkLogin() async {
-    print('Hello');
-    var url = Uri.parse('https://e-healthcare-rest.herokuapp.com/login-verify');
+  void checkLogin(BuildContext context) async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
+    var cookieJar=PersistCookieJar(storage : FileStorage(appDocPath));
+    var dio = Dio();
+    dio.interceptors.add(CookieManager(cookieJar));
+
+    var response;
+
     try {
-      var response = await http.get(url);
-      print(response.body);
-      print(response.statusCode);
-    } catch (e) {
-      print(e);
+      response = await dio.get(
+        'https://e-healthcare-rest.herokuapp.com/login-success',
+      );
+      print('Logged In');
+    } catch(e) {
+      print('Not Logged In');
+      print(e.response.statusCode);
+      if(e.response.statusCode == 401) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+          return LoginScreen();
+        }));
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    checkLogin();
+    checkLogin(context);
     return Scaffold(
       body: Container(
         color: kPrimaryColor,

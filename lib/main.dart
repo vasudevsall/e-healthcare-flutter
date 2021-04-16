@@ -19,8 +19,8 @@ class EHealthcareApp extends StatelessWidget {
         backgroundColor: kBackColor,
         primaryColor: kPrimaryColor
       ),
-      // home: SplashScreen(),
-      home: LoginScreen(),
+      home: SplashScreen(),
+      // home: LoginScreen(),
     );
   }
 }

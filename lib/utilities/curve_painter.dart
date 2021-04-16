@@ -3,49 +3,58 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class CurvePainter extends CustomPainter {
+
+  final bool reverse;
+  CurvePainter({
+    this.reverse = false
+  });
+
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint();
-    paint.color = kPrimaryLighter.withOpacity(0.5);
     paint.style = PaintingStyle.fill;
+    List<Color> colors = [
+      kPrimaryLighter.withOpacity(0.5),
+      kPrimaryLight.withOpacity(0.5),
+      kPrimaryColor
+    ];
+    const heightIncreaseCoefficient = [0.0, 0.04, 0.1];
 
-    var path = Path();
+    if(!reverse) {
+      for (int i = 0; i < 3; i++) {
+        paint.color = colors[i];
+        var path = Path();
 
-    path.moveTo(0, size.height * 0.2);
-    path.quadraticBezierTo(size.width * 0.4, size.height * 0.0,
-        size.width * 0.65, size.height * 0.2);
-    path.quadraticBezierTo(size.width * 0.9, size.height * 0.4,
-        size.width * 1.0, size.height * 0.2);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
-    canvas.drawPath(path, paint);
+        path.moveTo(0, size.height * (0.4 + heightIncreaseCoefficient[i]));
+        path.quadraticBezierTo(size.width * (0.4 - (0.05 * i)),
+            size.height * (0.0 + heightIncreaseCoefficient[i]),
+            size.width * (0.65 - (0.05 * i)),
+            size.height * (0.4 + heightIncreaseCoefficient[i]));
+        path.quadraticBezierTo(size.width * (0.9 - (0.05 * i)),
+            size.height * (0.8 + heightIncreaseCoefficient[i]),
+            size.width * 1.0,
+            size.height * (0.3 + heightIncreaseCoefficient[i]));
+        path.lineTo(size.width, size.height);
+        path.lineTo(0, size.height);
+        path.close();
+        canvas.drawPath(path, paint);
+      }
+    } else {
+      for(int i=0; i<3; i++) {
+        paint.color = colors[i];
+        var path = Path();
 
-    path = Path();
-    paint.color = kPrimaryLight.withOpacity(0.5);
-
-    path.moveTo(0, size.height * 0.24);
-    path.quadraticBezierTo(size.width * 0.35, size.height * 0.04,
-        size.width * 0.6, size.height * 0.24);
-    path.quadraticBezierTo(size.width * 0.85, size.height * 0.44,
-        size.width * 1.0, size.height * 0.24);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
-    canvas.drawPath(path, paint);
-
-    paint.color = kPrimaryColor;
-    path = Path();
-    path.moveTo(0, size.height * 0.3);
-    path.quadraticBezierTo(size.width * 0.25, size.height * 0.1,
-        size.width * 0.5, size.height * 0.3);
-    path.quadraticBezierTo(size.width * 0.75, size.height * 0.5,
-        size.width * 1.0, size.height * 0.3);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-
-    path.close();
-    canvas.drawPath(path, paint);
+        path.moveTo(0, size.height *  (0.8 - heightIncreaseCoefficient[i]));
+        path.quadraticBezierTo(size.width * (0.4 - (0.05*i)), size.height * (1.0 - heightIncreaseCoefficient[i]),
+            size.width * (0.65 - (0.05 * i)), size.height * (0.8 - heightIncreaseCoefficient[i]));
+        path.quadraticBezierTo(size.width * (0.9 - (0.05*i)), size.height * (0.6 - heightIncreaseCoefficient[i]),
+            size.width * 1.0, size.height * (0.8 - heightIncreaseCoefficient[i]));
+        path.lineTo(size.width, 0);
+        path.lineTo(0, 0);
+        path.close();
+        canvas.drawPath(path, paint);
+      }
+    }
   }
 
   @override

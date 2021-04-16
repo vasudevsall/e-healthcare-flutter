@@ -1,3 +1,4 @@
+import 'package:e_healthcare/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/splash_screen.dart';
@@ -18,7 +19,8 @@ class EHealthcareApp extends StatelessWidget {
         backgroundColor: kBackColor,
         primaryColor: kPrimaryColor
       ),
-      home: SplashScreen(),
+      // home: SplashScreen(),
+      home: LoginScreen(),
     );
   }
 }

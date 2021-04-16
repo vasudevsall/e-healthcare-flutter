@@ -4,6 +4,7 @@ import 'package:e_healthcare/widgets/RoundedButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:e_healthcare/screens/register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
 
@@ -38,7 +39,7 @@ class LoginScreen extends StatelessWidget {
                         fontSize: 14.0
                       ),
                       decoration: kLoginRegisterInputDecoration.copyWith(
-                        hintText: 'Enter your Email'
+                        hintText: 'Enter your username'
                       ),
                     ),
                     SizedBox(height: 8.0,),
@@ -99,6 +100,10 @@ class LoginScreen extends StatelessWidget {
                         TextButton(
                           onPressed: () {
                             // TODO: Link To Register Page
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => RegisterScreen())
+                            );
                           },
                           child: Text(
                             'Register Here',

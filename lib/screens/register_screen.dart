@@ -1,4 +1,5 @@
 import 'package:e_healthcare/constants/constants.dart';
+import 'package:e_healthcare/services/login_service.dart';
 import 'package:e_healthcare/utilities/curve_painter.dart';
 import 'package:e_healthcare/widgets/RoundedButton.dart';
 import 'package:e_healthcare/widgets/custom_dropdown.dart';
@@ -18,6 +19,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
   final genders = ['Male', 'Female', 'Other'];
 
+  String username = '';
+  String firstName = '';
+  String lastName = '';
+  String phoneNumber = '';
+  String email = '';
+  String birthDate = '';
+  String gender;
+  String bloodGroup;
+  String password = '';
+  String retype = '';
+  String mess = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,8 +41,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             CustomPaint(
               child: Container(
-                padding: EdgeInsets.only(top: 35.0),
-                height: 180.0,
+                padding: EdgeInsets.only(top: 50.0),
+                height: 220.0,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -42,6 +55,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               painter: CurvePainter(reverse: true),
             ),
+            Text(
+              mess,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.bold
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 20.0),
               child: Form(
@@ -52,16 +74,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     CustomLabelTextField(
                       validator: (value) {
                         if(value.length < 5 || value.length > 20) {
-                          return 'Minimum characters 5';
+                          return 'Length should be between 5 and 20';
                         }
-                        // TODO correct validation
                         return null;
                       },
                       iconData: Icons.person,
                       labelText: 'Username',
                       hintText: 'Enter Username',
                       onChange: (newVal) {
-                        // TODO implement username onChange
+                        username = newVal;
                       },
                     ),
 
@@ -69,14 +90,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                     CustomLabelTextField(
                       validator: (value) {
-                        // TODO validate first name
+                        bool hasNumbers = value.contains(new RegExp(r'[0-9]'));
+                        bool hasSpecialCharacters = value.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+
+                        if(value.length <= 0)
+                          return "Required field";
+                        if(hasNumbers || hasSpecialCharacters)
+                          return "Numbers/Special characters not allowed";
                         return null;
                       },
                       iconData: Icons.face,
                       labelText: 'First Name',
                       hintText: 'Enter First Name',
                       onChange: (newVal) {
-                        // TODO implement first name onChange
+                        firstName = newVal;
                       }
                     ),
 
@@ -84,14 +111,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                     CustomLabelTextField(
                       validator: (value) {
-                        // TODO validate last name
+                        bool hasNumbers = value.contains(new RegExp(r'[0-9]'));
+                        bool hasSpecialCharacters = value.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+
+                        if(value.length <= 0)
+                          return "Required field";
+                        if(hasNumbers || hasSpecialCharacters)
+                          return "Numbers/Special characters not allowed";
                         return null;
                       },
                       iconData: Icons.house,
                       labelText: 'Last Name',
                       hintText: 'Enter Last Name',
                       onChange: (newVal) {
-                        // TODO implement lastName onChange
+                        lastName = newVal;
                       }
                     ),
 
@@ -99,7 +132,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                     CustomLabelTextField(
                       validator: (value) {
-                        // TODO validate phone number
+                        if(value.length != 10) {
+                          return "Must have 10 digits";
+                        }
+                        if(value.startsWith('0')) {
+                          return "Must not start with 0";
+                        }
                         return null;
                       },
                       iconData: Icons.phone,
@@ -107,7 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       hintText: 'Enter Phone Number',
                       keyboardType: TextInputType.number,
                       onChange: (newVal) {
-                        // TODO implement phone NUmber onChange
+                        phoneNumber = newVal;
                       }
                     ),
 
@@ -115,7 +153,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                     CustomLabelTextField(
                       validator: (value) {
-                        // TODO validate Email
+                        bool emailValidation =
+                          value.contains(new RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"));
+                        if(!emailValidation)
+                          return "Invalid Email Address";
                         return null;
                       },
                       iconData: Icons.email,
@@ -123,7 +164,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       hintText: 'Enter Email',
                       keyboardType: TextInputType.emailAddress,
                       onChange: (newVal) {
-                        // TODO implement email onChange
+                        email = newVal;
                       }
                     ),
 
@@ -131,14 +172,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                     DateInput(
                       onChange: (newVal) {
-                        // TODO implement date onChange
+                        birthDate = newVal;
                       }
                     ),
 
                     SizedBox(height: 15.0,),
 
                     CustomDropdownButton(
-                      value: null,// TODO gender value correction
+                      value: gender,
                       items: genders.map((gender) {
                         return DropdownMenuItem(
                           child: Center(
@@ -148,7 +189,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         );
                       }).toList(),
                       onChange: (newVal) {
-                        //TODO implement gender onChange
+                        setState(() {
+                          gender = newVal[0];
+                        });
                       },
                       iconData: Icons.person,
                       labelText: 'Gender',
@@ -158,7 +201,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     SizedBox(height: 15.0,),
 
                     CustomDropdownButton(
-                      value: null,// TODO blood group value correction
+                      value: bloodGroup,
                       items: bloodGroups.map((bloodGroup) {
                         return DropdownMenuItem(
                           child: Center(
@@ -168,7 +211,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         );
                       }).toList(),
                       onChange: (newVal) {
-                        //TODO implement bloodGroup onChange
+                        setState(() {
+                          bloodGroup = newVal;
+                        });
                       },
                       iconData: Icons.local_hospital,
                       labelText: 'Blood Group',
@@ -179,7 +224,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                     CustomLabelTextField(
                         validator: (value) {
-                          // TODO validate password
+                          bool hasNumbers = value.contains(new RegExp(r'[0-9]'));
+                          bool hasSpecialCharacters = value.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+                          if(value.length < 6)
+                            return "Must be at least 6 characters long";
+                          if(!hasNumbers || !hasSpecialCharacters)
+                            return "Must contain a number and a special character";
                           return null;
                         },
                         iconData: Icons.fingerprint,
@@ -187,7 +237,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         hintText: 'Enter Password',
                         obscureText: true,
                         onChange: (newVal) {
-                          // TODO implement password onChange
+                          password = newVal;
                         }
                     ),
 
@@ -195,15 +245,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                     CustomLabelTextField(
                       validator: (value) {
-                        // TODO validate first name
+                        if(!(value == password))
+                          return "Both passwords must be same";
                         return null;
                       },
-                      iconData: Icons.face,
+                      iconData: Icons.lock,
                       labelText: 'Retype Password',
                       hintText: 'Retype Password',
                       obscureText: true,
                       onChange: (newVal) {
-                        // TODO implement password onChange
+                        retype = newVal;
                       }
                     ),
 
@@ -214,8 +265,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         RoundedButton(
                           color: kPrimaryColor,
                           text: 'Sign Up',
-                          onPressed: () {
-                            // TODO Sign Up implementation
+                          onPressed: () async {
+                            if(_formKey.currentState.validate()){
+                              LoginService loginService = LoginService();
+
+                              try {
+                                await loginService.registerUser
+                                (
+                                    username, password, firstName, lastName,
+                                    gender, birthDate, phoneNumber, email, bloodGroup
+                                );
+
+                                Navigator.pop(context, true);
+                              } catch(e) {
+                                print(e.response.message);
+                                setState(() {
+                                  mess = e.response.message;
+                                });
+                              }
+                            }
                           }
                         ),
                       ],

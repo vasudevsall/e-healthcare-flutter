@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "873219295468",
+    "project_id": "e-healthcare-78554",
+    "storage_bucket": "e-healthcare-78554.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873219295468:android:f4b8be38d007e79fc53dc9",
+        "android_client_info": {
+          "package_name": "com.vasudev.e_healthcare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873219295468-imo3gdi1cc8cmltvff8nopd2rl4rin20.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1B8iUvbTaPF5rGy1jaaevphuVnjZK9_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873219295468-imo3gdi1cc8cmltvff8nopd2rl4rin20.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

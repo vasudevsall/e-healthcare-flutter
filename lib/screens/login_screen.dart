@@ -1,19 +1,22 @@
-import 'dart:io';
-
 import 'package:e_healthcare/constants/constants.dart';
-import 'package:e_healthcare/screens/splash_screen.dart';
+import 'package:e_healthcare/screens/loggedin_screen.dart';
+import 'package:e_healthcare/services/login_service.dart';
 import 'package:e_healthcare/utilities/curve_painter.dart';
 import 'package:e_healthcare/widgets/RoundedButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:e_healthcare/screens/register_screen.dart';
-import 'package:dio/dio.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:cookie_jar/cookie_jar.dart';
-import 'package:path_provider/path_provider.dart';
 
 class LoginScreen extends StatefulWidget {
+
+  final String message;
+  final bool error;
+
+  LoginScreen({
+    this.message = '',
+    this.error = false
+  });
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -21,50 +24,35 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
-  String errMess = '';
+  String mess = '';
+  bool error = false;
   String username = '';
   String password = '';
 
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      mess = widget.message;
+      error = widget.error;
+    });
+  }
+
   void login(BuildContext context) async {
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String appDocPath = appDocDir.path;
-    var cookieJar=PersistCookieJar(storage : FileStorage(appDocPath));
-    var dio = Dio();
-    dio.interceptors.add(CookieManager(cookieJar));
 
-    var formData = {
-      'username': username,
-      'password': password
-    };
-
-    var response;
-
+    LoginService loginService = LoginService();
     try {
-      response = await dio.post(
-        'https://e-healthcare-rest.herokuapp.com/login', data: formData,
-        options: Options(
-          contentType: Headers.formUrlEncodedContentType,
-          followRedirects: false,
-          validateStatus: (status) { return status < 500; },
-          responseType: ResponseType.json
-        ),
-      );
+      await loginService.loginUser(username, password);
 
-      response = await dio.get(
-        'https://e-healthcare-rest.herokuapp.com/login-success',
-      );
+      var response = await loginService.verifyLogin();
 
-      print(response.data);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SplashScreen()));
+      print(response.data['username']);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoggedInScreen(data: response.data)));
     } catch(e) {
-      print(e.response.data);
-      print(e.response.statusCode);
-      print(e.message);
-      if(e.response.statusCode == 401) {
-        setState(() {
-          errMess = 'Invalid Username/Password';
-        });
-      }
+      setState(() {
+        mess = 'Invalid Username/Password';
+        error = true;
+      });
     }
   }
 
@@ -92,10 +80,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     SizedBox(height: 10.0,),
                     Text(
-                      errMess,
+                      mess,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.redAccent,
+                        color: (error) ? Colors.redAccent : Colors.green,
                         fontSize: 12.0,
                         fontWeight: FontWeight.bold
                       ),
@@ -174,11 +162,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async {
+                            var success = await Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => RegisterScreen())
                             );
+
+                            if(success == true)
+                              setState(() {
+                                mess = "Successfully registered, login using username/password";
+                                error = false;
+                              });
                           },
                           child: Text(
                             'Register Here',

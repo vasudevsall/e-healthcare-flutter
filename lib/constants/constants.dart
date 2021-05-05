@@ -34,3 +34,6 @@ const kLoginRegisterInputDecoration = InputDecoration(
 );
 
 /* Login register constants */
+
+/* URL Constants */
+const kURL = 'https://e-healthcare-mobile.herokuapp.com';

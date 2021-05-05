@@ -47,6 +47,7 @@ class _CustomLabelTextFieldState extends State<CustomLabelTextField> {
           decoration: kLoginRegisterInputDecoration.copyWith(
               hintText: widget.hintText
           ),
+          onChanged: widget.onChange,
         ),
       ],
     );

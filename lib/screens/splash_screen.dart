@@ -1,7 +1,5 @@
-import 'dart:io';
-
-import 'package:e_healthcare/screens/loggedin_screen.dart';
 import 'package:e_healthcare/screens/login_screen.dart';
+import 'package:e_healthcare/utilities/route_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -14,9 +12,11 @@ class SplashScreen extends StatelessWidget {
     LoginService loginService = LoginService();
     try {
       var response = await loginService.verifyLogin();
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoggedInScreen(
-        data: response.data,
-      )));
+      print('Here');
+      RouteHelper routeHelper = RouteHelper();
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+        routeHelper.dashboardWidgetHelper(response.data)
+      ));
     } catch(e) {
       print(e);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {

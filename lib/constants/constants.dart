@@ -35,5 +35,14 @@ const kLoginRegisterInputDecoration = InputDecoration(
 
 /* Login register constants */
 
+/* Dashboard constants */
+
+BoxDecoration kDashBoxDecoration = BoxDecoration(
+  color: kPrimaryOther,
+  borderRadius: BorderRadius.circular(15.0),
+);
+
+/* Dashboard Constants */
+
 /* URL Constants */
 const kURL = 'https://e-healthcare-mobile.herokuapp.com';

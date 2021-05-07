@@ -2,6 +2,7 @@ import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/loggedin_screen.dart';
 import 'package:e_healthcare/services/login_service.dart';
 import 'package:e_healthcare/utilities/curve_painter.dart';
+import 'package:e_healthcare/utilities/route_helper.dart';
 import 'package:e_healthcare/widgets/RoundedButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,8 +47,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
       var response = await loginService.verifyLogin();
 
-      print(response.data['username']);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoggedInScreen(data: response.data)));
+      RouteHelper routeHelper = RouteHelper();
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+          routeHelper.dashboardWidgetHelper(response.data)
+      ));
     } catch(e) {
       setState(() {
         mess = 'Invalid Username/Password';

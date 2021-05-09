@@ -51,16 +51,14 @@ class _ProfileState extends State<Profile> {
     changeImage();
   }
 
-  Widget selectImage() {
+  ImageProvider selectImage() {
     if(networkImage)
-      return Image.network(
+      return NetworkImage(
         url,
-        fit: BoxFit.contain,
       );
     else
-      return Image.asset(
+      return AssetImage(
         url,
-        fit: BoxFit.contain,
       );
   }
 
@@ -80,12 +78,7 @@ class _ProfileState extends State<Profile> {
           child: CircleAvatar(
             radius: 70.0,
             backgroundColor: kBackColor,
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: ClipOval(
-                child: selectImage(),
-              ),
-            ),
+            backgroundImage: selectImage(),
           ),
         ),
         SizedBox(height: 20.0,),

@@ -147,7 +147,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     RoundedButton(
                       onPressed: () {
-                        // TODO: Login Implementation
                         login(context);
                       },
                       color: kPrimaryColor,

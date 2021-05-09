@@ -1,6 +1,5 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import './service_constants.dart';
 
 class LoginService {

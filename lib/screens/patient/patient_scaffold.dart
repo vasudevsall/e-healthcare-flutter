@@ -16,7 +16,7 @@ class PatientScaffold extends StatelessWidget {
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.white,
-          toolbarHeight: 80.0,
+          toolbarHeight: 70.0,
           actions: <Widget>[
             IconButton(
                 icon: Icon(
@@ -30,11 +30,9 @@ class PatientScaffold extends StatelessWidget {
             )
           ],
           centerTitle: true,
-          title: Flexible(
-            child: Image.asset(
-              'images/logo_blue.png',
-              height: 60.0,
-            ),
+          title: Image.asset(
+            'images/logo_blue.png',
+            height: 60.0,
           ),
           leading: Builder(
             builder: (context) => IconButton(

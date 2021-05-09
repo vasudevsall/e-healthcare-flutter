@@ -1,6 +1,9 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
+import 'package:e_healthcare/services/appointment_service.dart';
+import 'package:e_healthcare/widgets/RoundedButton.dart';
+import 'package:e_healthcare/widgets/appointment_card.dart';
 import 'package:e_healthcare/widgets/search_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,102 +19,213 @@ class PatientDashboard extends StatefulWidget {
 }
 
 class _PatientDashboardState extends State<PatientDashboard> {
+
+  var lastAppointmentData;
+  bool lastAppointmentDataAvailable = false;
+  var scheduledAppointmentsData;
+  bool scheduledAppointmentsDataAvailable = false;
+
+  void getAppointmentData() async {
+    AppointmentService appointmentService = AppointmentService();
+
+    try {
+      var resp = await appointmentService.getPastAppointments();
+      setState(() {
+        lastAppointmentData = resp.data[resp.data.length-1];
+        lastAppointmentDataAvailable = true;
+      });
+
+    } catch(e) {
+      print(e);
+    }
+  }
+
+  void getScheduledAppointmentData() async {
+    AppointmentService appointmentService = AppointmentService();
+
+    try {
+      var resp = await appointmentService.getScheduledAppointments();
+      setState(() {
+        scheduledAppointmentsData = resp.data;
+        scheduledAppointmentsDataAvailable = true;
+      });
+
+    } catch(e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getAppointmentData();
+    getScheduledAppointmentData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return PatientScaffold(
       drawer: PatientDrawer(data: widget.data,),
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
-              child: Text(
-                'Dashboard',
-                style: GoogleFonts.poppins(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w700,
-                  color: kPrimaryLight
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
+            child: Text(
+              'Dashboard',
+              style: GoogleFonts.poppins(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w700,
+                color: kPrimaryLight
+              ),
+            ),
+          ),
+          SizedBox(height: 20.0,),
+          Container(
+            padding: EdgeInsets.all(25.0),
+            decoration: kDashBoxDecoration,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Text(
+                  "Welcome, ${widget.data['firstName']} ${widget.data['lastName']}!",
+                  textAlign: TextAlign.center,
+                  style: kHeadTextStyle.copyWith(
+                    fontSize: 24.0,
+                    color: Colors.white
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(height: 20.0,),
-            Container(
-              padding: EdgeInsets.all(25.0),
-              decoration: kDashBoxDecoration,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Text(
-                    "Welcome, ${widget.data['firstName']} ${widget.data['lastName']}!",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.notoSans(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white
-                    ),
+                SizedBox(height: 15.0,),
+                Text(
+                  "Let's check your health with us",
+                  textAlign: TextAlign.center,
+                  style: kSubTextStyle.copyWith(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white.withOpacity(0.7)
                   ),
-                  SizedBox(height: 15.0,),
-                  Text(
-                    "Let's check your health with us",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.notoSans(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white.withOpacity(0.7)
-                    ),
+                ),
+                SizedBox(height: 5.0,),
+                Text(
+                  "Connect to Doctor",
+                  textAlign: TextAlign.center,
+                  style: kHeadTextStyle.copyWith(
+                    fontSize: 20.0
                   ),
-                  SizedBox(height: 5.0,),
-                  Text(
-                    "Connect to Doctor",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.notoSans(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w700,
-                      color: kPrimaryColor
-                    ),
-                  ),
-                  SizedBox(height: 10.0,),
-                  SearchTextField(
-                    onSubmitted: (value){
-                      //TODO: On Pressed, search Doctor
-                    },
-                    onChanged: (newVal){
-                      //TODO: On change
-                    },
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          //TODO: Advanced Search
-                        },
-                        child: Text(
-                          'Advanced Search',
-                          style: GoogleFonts.montserrat(
-                            color: kPrimaryLight,
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w700
-                          ),
+                ),
+                SizedBox(height: 10.0,),
+                SearchTextField(
+                  onSubmitted: (value){
+                    //TODO: On Pressed, search Doctor
+                  },
+                  onChanged: (newVal){
+                    //TODO: On change
+                  },
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        //TODO: Advanced Search
+                      },
+                      child: Text(
+                        'Advanced Search',
+                        style: GoogleFonts.montserrat(
+                          color: kPrimaryLight,
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w700
                         ),
-                      )
-                    ],
-                  )
-                ],
-              ),
+                      ),
+                    )
+                  ],
+                )
+              ],
             ),
+          ),
 
-            SizedBox(height: 15.0,),
+          SizedBox(height: 15.0,),
+          Container(
+            padding: EdgeInsets.all(15.0),
+            decoration: kDashBoxDecoration,
+            child: _displayUpcomingAppointmentData(),
+          ),
 
-            Container(
-              padding: EdgeInsets.all(25.0),
-              decoration: kDashBoxDecoration,
-            ),
-          ],
-        ),
+          SizedBox(height: 15.0,),
+
+          Container(
+            padding: EdgeInsets.all(25.0),
+            decoration: kDashBoxDecoration,
+            child: _displayLastAppointmentData(),
+          ),
+        ],
       ),
+    );
+  }
+
+  Widget _displayLastAppointmentData(){
+    if(!lastAppointmentDataAvailable) {
+      return kDashBoxSpinner;
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Text(
+            'Last Appointment',
+            textAlign: TextAlign.start,
+            style: kDashBoxHeadTextStyle,
+          ),
+
+          SizedBox(height: 20.0,),
+          AppointmentCard(appointmentData: lastAppointmentData),
+        ],
+      );
+    }
+  }
+
+  Widget _displayUpcomingAppointmentData() {
+    if(!scheduledAppointmentsDataAvailable) {
+      return kDashBoxSpinner;
+    } else if(scheduledAppointmentsData.length == 0) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'No appointment scheduled.',
+            textAlign: TextAlign.center,
+            style: kDashBoxHeadTextStyle.copyWith(
+                fontSize: 14.0,
+                color: Colors.black87
+            ),
+          ),
+          RoundedButton(
+              color: kSecondColor,
+              text: 'Schedule New',
+              onPressed: () {
+                //TODO: Schedule new appointment
+              }
+          ),
+        ],
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Text(
+          'Scheduled Appointments',
+          style: kDashBoxHeadTextStyle,
+        ),
+        SizedBox(height: 20.0,),
+        for (var i in scheduledAppointmentsData) AppointmentCard(appointmentData: i, marginBottom: true,),
+        RoundedButton(
+            color: kSecondColor,
+            text: 'Schedule New',
+            onPressed: () {
+              //TODO: Schedule new appointment
+            }
+        ),
+      ],
     );
   }
 }

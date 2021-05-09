@@ -278,9 +278,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                                 Navigator.pop(context, true);
                               } catch(e) {
-                                print(e.response.message);
+                                print(e);
                                 setState(() {
-                                  mess = e.response.message;
+                                  mess = e.response.toString();
                                 });
                               }
                             }

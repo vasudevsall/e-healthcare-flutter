@@ -48,7 +48,7 @@ class LoginService {
       "firstName": firstName,
       "lastName": lastName,
       "gender": gender,
-      "birthDate": birthDate,
+      "birthDate": birthDate.toString(),
       "phoneNumber": phoneNumber,
       "email": email,
       "bloodGroup": bloodGroup

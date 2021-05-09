@@ -32,7 +32,7 @@ class PatientScaffold extends StatelessWidget {
           centerTitle: true,
           title: Image.asset(
             'images/logo_blue.png',
-            height: 60.0,
+            height: 50.0,
           ),
           leading: Builder(
             builder: (context) => IconButton(

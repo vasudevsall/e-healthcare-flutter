@@ -4,8 +4,10 @@ import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
 import 'package:e_healthcare/services/appointment_service.dart';
 import 'package:e_healthcare/widgets/RoundedButton.dart';
 import 'package:e_healthcare/widgets/appointment_card.dart';
+import 'package:e_healthcare/widgets/dash_item_tile.dart';
 import 'package:e_healthcare/widgets/search_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PatientDashboard extends StatefulWidget {
@@ -22,6 +24,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
 
   var lastAppointmentData;
   bool lastAppointmentDataAvailable = false;
+  bool noLastAppointment = false;
   var scheduledAppointmentsData;
   bool scheduledAppointmentsDataAvailable = false;
 
@@ -31,7 +34,10 @@ class _PatientDashboardState extends State<PatientDashboard> {
     try {
       var resp = await appointmentService.getPastAppointments();
       setState(() {
-        lastAppointmentData = resp.data[resp.data.length-1];
+        if(resp.data.length == 0)
+            noLastAppointment = true;
+        else
+          lastAppointmentData = resp.data[resp.data.length-1];
         lastAppointmentDataAvailable = true;
       });
 
@@ -69,17 +75,6 @@ class _PatientDashboardState extends State<PatientDashboard> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
-            child: Text(
-              'Dashboard',
-              style: GoogleFonts.poppins(
-                fontSize: 18.0,
-                fontWeight: FontWeight.w700,
-                color: kPrimaryLight
-              ),
-            ),
-          ),
           SizedBox(height: 20.0,),
           Container(
             padding: EdgeInsets.all(25.0),
@@ -158,6 +153,61 @@ class _PatientDashboardState extends State<PatientDashboard> {
             decoration: kDashBoxDecoration,
             child: _displayLastAppointmentData(),
           ),
+
+          SizedBox(height: 20.0,),
+          Divider(),
+
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(
+                'Appointments',
+                style: GoogleFonts.libreFranklin(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w700,
+                    color: kPrimaryLight
+                ),
+              ),
+
+              SizedBox(height: 10.0,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DashItemTile(
+                    onTap: (){
+                      //TODO: Method Implementation
+                    },
+                    icon: FontAwesomeIcons.solidCalendarPlus,
+                    text: 'New Appointment',
+                    splashColor: Colors.green,
+                  ),
+                  DashItemTile(
+                    onTap: (){
+                      //TODO: Method Implementation
+                    },
+                    icon: FontAwesomeIcons.notesMedical,
+                    text: 'Appointment History',
+                    splashColor: kSecondColor,
+                  ),
+                  DashItemTile(
+                    onTap: (){
+                      //TODO: Method Implementation
+                    },
+                    icon: FontAwesomeIcons.calendarDay,
+                    text: 'Scheduled Appointments'
+                  ),
+                  DashItemTile(
+                      onTap: (){
+                      //TODO: Method Implementation
+                    },
+                    icon: FontAwesomeIcons.solidCalendarTimes,
+                    text: 'Cancel Appointment',
+                    splashColor: Colors.redAccent,
+                  ),
+                ],
+              )
+            ],
+          )
         ],
       ),
     );
@@ -166,7 +216,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
   Widget _displayLastAppointmentData(){
     if(!lastAppointmentDataAvailable) {
       return kDashBoxSpinner;
-    } else {
+    } else if(!noLastAppointment) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -181,6 +231,16 @@ class _PatientDashboardState extends State<PatientDashboard> {
         ],
       );
     }
+    return Center(
+      child: Text(
+        'No appointment data',
+        textAlign: TextAlign.center,
+        style: kDashBoxHeadTextStyle.copyWith(
+            fontSize: 14.0,
+            color: Colors.black87
+        ),
+      ),
+    );
   }
 
   Widget _displayUpcomingAppointmentData() {
@@ -191,7 +251,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            'No appointment scheduled.',
+            'No appointment scheduled',
             textAlign: TextAlign.center,
             style: kDashBoxHeadTextStyle.copyWith(
                 fontSize: 14.0,

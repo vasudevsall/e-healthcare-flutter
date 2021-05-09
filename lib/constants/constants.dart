@@ -11,6 +11,7 @@ const Color kPrimaryOther = Color(0xff82c8cc);
 const Color kPurpleColor = Color(0xff2e294e);
 const Color kSecondColor = Color(0xffffa62b);
 const Color kRedColor = Color(0xffff5a5f);
+const Color kDarkBackColor = Color(0xff2d383a);
 const Color kBackColor = Color(0xffefefef);
 
 /*Color Constants end*/

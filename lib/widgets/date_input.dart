@@ -39,6 +39,7 @@ class _DateInputState extends State<DateInput> {
               lastDate: DateTime.now(),
             );
             dateController.text = date.toString().substring(0,10);
+            widget.onChange(date.toString().substring(0,10));
           },
           textAlign: TextAlign.center,
           style: TextStyle(

@@ -40,7 +40,7 @@ class DashItemTile extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           splashColor: splashColor.withOpacity(0.5),
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(5.0),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
             child: Column(

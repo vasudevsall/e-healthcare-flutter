@@ -1,6 +1,7 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
+import 'package:e_healthcare/screens/patient/search_doctor.dart';
 import 'package:e_healthcare/services/appointment_service.dart';
 import 'package:e_healthcare/widgets/RoundedButton.dart';
 import 'package:e_healthcare/widgets/appointment_card.dart';
@@ -77,7 +78,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
         children: <Widget>[
           SizedBox(height: 20.0,),
           Container(
-            padding: EdgeInsets.all(25.0),
+            padding: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 5.0),
             decoration: kDashBoxDecoration,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -122,10 +123,12 @@ class _PatientDashboardState extends State<PatientDashboard> {
                   children: <Widget>[
                     TextButton(
                       onPressed: () {
-                        //TODO: Advanced Search
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return SearchDoctor(data: widget.data);
+                        }));
                       },
                       child: Text(
-                        'Advanced Search',
+                        'Search by Speciality',
                         style: GoogleFonts.montserrat(
                           color: kPrimaryLight,
                           fontSize: 12.0,
@@ -186,7 +189,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                       //TODO: Method Implementation
                     },
                     icon: FontAwesomeIcons.notesMedical,
-                    text: 'Appointment History',
+                    text: 'Past Appointments',
                     splashColor: kSecondColor,
                   ),
                   DashItemTile(
@@ -204,6 +207,52 @@ class _PatientDashboardState extends State<PatientDashboard> {
                     text: 'Cancel Appointment',
                     splashColor: Colors.redAccent,
                   ),
+                ],
+              )
+            ],
+          ),
+
+          SizedBox(height: 10.0,),
+
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(
+                'Account',
+                style: GoogleFonts.libreFranklin(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w700,
+                    color: kPrimaryLight
+                ),
+              ),
+
+              SizedBox(height: 10.0,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DashItemTile(
+                    onTap: (){
+                      //TODO: Method Implementation
+                    },
+                    icon: FontAwesomeIcons.solidUser,
+                    text: 'Account Details',
+                  ),
+                  DashItemTile(
+                    onTap: (){
+                      //TODO: Method Implementation
+                    },
+                    icon: FontAwesomeIcons.userEdit,
+                    text: 'Update Information',
+                    splashColor: kSecondColor,
+                  ),
+                  DashItemTile(
+                      onTap: (){
+                        //TODO: Method Implementation
+                      },
+                      icon: FontAwesomeIcons.userShield,
+                      text: 'Change Password'
+                  ),
+                  SizedBox(width: 90.0, height: 100.0,)
                 ],
               )
             ],

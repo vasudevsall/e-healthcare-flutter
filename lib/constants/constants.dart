@@ -43,8 +43,8 @@ const kLoginRegisterInputDecoration = InputDecoration(
 /* Dashboard constants */
 
 BoxDecoration kDashBoxDecoration = BoxDecoration(
-  color: kPrimaryOther,
-  borderRadius: BorderRadius.circular(15.0),
+  color: kPrimaryOther.withOpacity(0.9),
+  borderRadius: BorderRadius.circular(5.0),
 );
 
 TextStyle kDashBoxHeadTextStyle = GoogleFonts.poppins(
@@ -71,6 +71,17 @@ Widget kDashBoxSpinner = SleekCircularSlider(
     customColors: CustomSliderColors(
       trackColor: kPrimaryOther,
       progressBarColor: Color(0xeeffffff),
+    ),
+  ),
+);
+
+Widget kDashBoxAlternateSpinner = SleekCircularSlider(
+  appearance: CircularSliderAppearance(
+    spinnerMode: true,
+    size: 36.0,
+    customColors: CustomSliderColors(
+      trackColor: Colors.white,
+      progressBarColor: kPrimaryOther,
     ),
   ),
 );

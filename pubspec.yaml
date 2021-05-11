@@ -38,6 +38,7 @@ dependencies:
   firebase_analytics: ^8.0.2
   image_picker: ^0.7.4
   font_awesome_flutter: ^9.0.0
+  group_button: ^2.1.2
 
 dev_dependencies:
   flutter_test:

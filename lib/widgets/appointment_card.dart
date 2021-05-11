@@ -33,7 +33,7 @@ class AppointmentCard extends StatelessWidget {
         margin: EdgeInsets.only(bottom: (marginBottom)? 15.0: 0.0),
         padding: EdgeInsets.fromLTRB(15.0, 15.0, 0.0, 0.0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(5.0),
           color: Colors.white,
           boxShadow: [
             BoxShadow(
@@ -91,8 +91,8 @@ class AppointmentCard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(10.0),
-                          topLeft: Radius.circular(10.0)
+                          bottomRight: Radius.circular(5.0),
+                          topLeft: Radius.circular(5.0)
                       ),
                       color: kSecondColor
                   ),

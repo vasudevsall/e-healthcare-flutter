@@ -148,7 +148,7 @@ class _DisplayDoctorsState extends State<DisplayDoctors> {
                   ElevatedButton(
                     onPressed: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return DoctorDetailAppointment(username: i['userId']['username']);
+                        return DoctorDetailAppointment(username: i['userId']['username'], data: widget.data,);
                       }));
                     },
                     child: Center(

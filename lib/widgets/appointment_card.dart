@@ -12,14 +12,14 @@ class AppointmentCard extends StatelessWidget {
   final bool marginBottom;
 
   ImageProvider getImageUrl(userData) {
-    if(userData['url'] == null || userData['url'] == '') {
+    if(userData['profile'] == null || userData['profile'] == '') {
       if(userData['gender'] == 'M') {
         return AssetImage('images/male.png');
       } else {
         return AssetImage('images/female.png');
       }
     } else {
-      return NetworkImage(userData['url']);
+      return NetworkImage(userData['profile']);
     }
   }
 

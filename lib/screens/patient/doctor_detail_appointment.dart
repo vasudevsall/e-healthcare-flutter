@@ -1,6 +1,7 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
+import 'package:e_healthcare/services/appointment_service.dart';
 import 'package:e_healthcare/services/information_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class _DoctorDetailAppointmentState extends State<DoctorDetailAppointment> {
   int selectedDay = -1;
   String selectedSlot = '';
   String scheduleError = '';
+  bool error = true;
 
   void _getDoctorDetails() async {
     InformationService informationService = InformationService();
@@ -49,10 +51,10 @@ class _DoctorDetailAppointmentState extends State<DoctorDetailAppointment> {
 
   void _createDateList() {
     DateTime now = DateTime.now().toLocal();
-    dateList.add('${now.year}-${now.month}-${now.day}');
+    dateList.add('${now.year}-${(now.month < 10)?'0${now.month}':now.month}-${now.day}');
 
     DateTime nextDay = DateTime(now.year, now.month, now.day + 1);
-    dateList.add('${nextDay.year}-${nextDay.month}-${nextDay.day}');
+    dateList.add('${nextDay.year}-${(nextDay.month < 10)?'0${nextDay.month}':nextDay.month}-${nextDay.day}');
 
     if(now.hour < 9) {
       todaySlots.add('Morning');
@@ -304,7 +306,7 @@ class _DoctorDetailAppointmentState extends State<DoctorDetailAppointment> {
                 style: GoogleFonts.notoSans(
                   fontSize: 12.0,
                   fontWeight: FontWeight.w700,
-                  color: kRedColor
+                  color: (error)?kRedColor:Colors.green,
                 ),
               ),
               SizedBox(height: 5.0,),
@@ -326,6 +328,7 @@ class _DoctorDetailAppointmentState extends State<DoctorDetailAppointment> {
                         selectedDay = index;
                         scheduleError = '';
                         selectedSlot = '';
+                        error = true;
                       });
                     },
                     isRadio: true,
@@ -367,11 +370,13 @@ class _DoctorDetailAppointmentState extends State<DoctorDetailAppointment> {
                         setState(() {
                           selectedSlot = todaySlots[index][0];
                           scheduleError = '';
+                          error = true;
                         });
                       } else {
                         setState(() {
                           selectedSlot = slots[index][0];
                           scheduleError = '';
+                          error = true;
                         });
                       }
                     },
@@ -401,13 +406,15 @@ class _DoctorDetailAppointmentState extends State<DoctorDetailAppointment> {
                   if(selectedDay == -1) {
                     setState(() {
                       scheduleError = 'Select Appointment Date';
+                      error = true;
                     });
                   } else if(selectedSlot == '') {
                     setState(() {
                       scheduleError = 'Select Appointment Slot';
+                      error = true;
                     });
                   } else {
-                    //TODO: Appointment scheduling
+                    _scheduleAppointment();
                   }
                 },
                 child: Text(
@@ -438,6 +445,23 @@ class _DoctorDetailAppointmentState extends State<DoctorDetailAppointment> {
       }
     } else {
       return NetworkImage(url);
+    }
+  }
+
+  void _scheduleAppointment() async {
+    AppointmentService appointmentService = AppointmentService();
+    try {
+      var resp = await appointmentService.addNewAppointment(widget.username, dateList[selectedDay], selectedSlot);
+
+      setState(() {
+        error = false;
+        scheduleError = 'Appointment Scheduled';
+      });
+    } catch(e) {
+      setState(() {
+        error = true;
+        scheduleError = e.response.data['message'].toString();
+      });
     }
   }
 

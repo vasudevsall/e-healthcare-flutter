@@ -173,41 +173,47 @@ class _PatientDashboardState extends State<PatientDashboard> {
               ),
 
               SizedBox(height: 10.0,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  DashItemTile(
-                    onTap: (){
-                      //TODO: Method Implementation
-                    },
-                    icon: FontAwesomeIcons.solidCalendarPlus,
-                    text: 'New Appointment',
-                    splashColor: Colors.green,
-                  ),
-                  DashItemTile(
-                    onTap: (){
-                      //TODO: Method Implementation
-                    },
-                    icon: FontAwesomeIcons.notesMedical,
-                    text: 'Past Appointments',
-                    splashColor: kSecondColor,
-                  ),
-                  DashItemTile(
-                    onTap: (){
-                      //TODO: Method Implementation
-                    },
-                    icon: FontAwesomeIcons.calendarDay,
-                    text: 'Scheduled Appointments'
-                  ),
-                  DashItemTile(
+              SizedBox(
+                height: 110.0,
+                child: ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    DashItemTile(
                       onTap: (){
-                      //TODO: Method Implementation
-                    },
-                    icon: FontAwesomeIcons.solidCalendarTimes,
-                    text: 'Cancel Appointment',
-                    splashColor: Colors.redAccent,
-                  ),
-                ],
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return SearchDoctor(data: widget.data);
+                        }));
+                      },
+                      icon: FontAwesomeIcons.solidCalendarPlus,
+                      text: 'New Appointment',
+                      splashColor: Colors.green,
+                    ),
+                    DashItemTile(
+                      onTap: (){
+                        //TODO: Method Implementation
+                      },
+                      icon: FontAwesomeIcons.notesMedical,
+                      text: 'Past Appointments',
+                      splashColor: kSecondColor,
+                    ),
+                    DashItemTile(
+                      onTap: (){
+                        //TODO: Method Implementation
+                      },
+                      icon: FontAwesomeIcons.calendarDay,
+                      text: 'Scheduled Appointments'
+                    ),
+                    DashItemTile(
+                        onTap: (){
+                        //TODO: Method Implementation
+                      },
+                      icon: FontAwesomeIcons.solidCalendarTimes,
+                      text: 'Cancel Appointment',
+                      splashColor: Colors.redAccent,
+                    ),
+                  ],
+                ),
               )
             ],
           ),
@@ -227,33 +233,37 @@ class _PatientDashboardState extends State<PatientDashboard> {
               ),
 
               SizedBox(height: 10.0,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  DashItemTile(
-                    onTap: (){
-                      //TODO: Method Implementation
-                    },
-                    icon: FontAwesomeIcons.solidUser,
-                    text: 'Account Details',
-                  ),
-                  DashItemTile(
-                    onTap: (){
-                      //TODO: Method Implementation
-                    },
-                    icon: FontAwesomeIcons.userEdit,
-                    text: 'Update Information',
-                    splashColor: kSecondColor,
-                  ),
-                  DashItemTile(
+              SizedBox(
+                height: 110.0,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  children: [
+                    DashItemTile(
                       onTap: (){
                         //TODO: Method Implementation
                       },
-                      icon: FontAwesomeIcons.userShield,
-                      text: 'Change Password'
-                  ),
-                  SizedBox(width: 90.0, height: 100.0,)
-                ],
+                      icon: FontAwesomeIcons.solidUser,
+                      text: 'Account Details',
+                    ),
+                    DashItemTile(
+                      onTap: (){
+                        //TODO: Method Implementation
+                      },
+                      icon: FontAwesomeIcons.userEdit,
+                      text: 'Update Information',
+                      splashColor: kSecondColor,
+                    ),
+                    DashItemTile(
+                        onTap: (){
+                          //TODO: Method Implementation
+                        },
+                        icon: FontAwesomeIcons.userShield,
+                        text: 'Change Password'
+                    ),
+
+                  ],
+                ),
               )
             ],
           )
@@ -311,7 +321,9 @@ class _PatientDashboardState extends State<PatientDashboard> {
               color: kSecondColor,
               text: 'Schedule New',
               onPressed: () {
-                //TODO: Schedule new appointment
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return SearchDoctor(data: widget.data);
+                }));
               }
           ),
         ],
@@ -331,7 +343,9 @@ class _PatientDashboardState extends State<PatientDashboard> {
             color: kSecondColor,
             text: 'Schedule New',
             onPressed: () {
-              //TODO: Schedule new appointment
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return SearchDoctor(data: widget.data);
+              }));
             }
         ),
       ],

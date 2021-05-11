@@ -25,7 +25,7 @@ class _PatientDrawerState extends State<PatientDrawer> {
     setState(() {
       name = "${widget.data['firstName']} ${widget.data['lastName']}";
       gender = widget.data['gender'];
-      url = widget.data['url'];
+      url = widget.data['profile'];
     });
   }
 

@@ -32,38 +32,41 @@ class DashItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height,
-      width: width,
-      child: Material(
-        color: backgroundColor,
-        child: InkWell(
-          onTap: onTap,
-          splashColor: splashColor.withOpacity(0.5),
-          borderRadius: BorderRadius.circular(5.0),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
-            child: Column(
-              children: <Widget>[
-                FaIcon(
-                  icon,
-                  color: color,
-                  size: iconSize,
-                ),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      text,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.libreFranklin(
-                          fontSize: fontSize,
-                          fontWeight: FontWeight.w500,
-                          color: color
+    return Container(
+      margin: EdgeInsets.only(left: 7.5, right: 7.5),
+      child: SizedBox(
+        height: height,
+        width: width,
+        child: Material(
+          color: backgroundColor,
+          child: InkWell(
+            onTap: onTap,
+            splashColor: splashColor.withOpacity(0.5),
+            borderRadius: BorderRadius.circular(5.0),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
+              child: Column(
+                children: <Widget>[
+                  FaIcon(
+                    icon,
+                    color: color,
+                    size: iconSize,
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        text,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.libreFranklin(
+                            fontSize: fontSize,
+                            fontWeight: FontWeight.w500,
+                            color: color
+                        ),
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

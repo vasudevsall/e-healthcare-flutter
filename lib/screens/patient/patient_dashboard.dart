@@ -1,5 +1,6 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
+import 'package:e_healthcare/screens/patient/past_appointments.dart';
 import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
 import 'package:e_healthcare/screens/patient/search_doctor.dart';
 import 'package:e_healthcare/services/appointment_service.dart';
@@ -191,7 +192,9 @@ class _PatientDashboardState extends State<PatientDashboard> {
                     ),
                     DashItemTile(
                       onTap: (){
-                        //TODO: Method Implementation
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return PastAppointments(data: widget.data);
+                        }));
                       },
                       icon: FontAwesomeIcons.notesMedical,
                       text: 'Past Appointments',
@@ -286,7 +289,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
           ),
 
           SizedBox(height: 20.0,),
-          AppointmentCard(appointmentData: lastAppointmentData),
+          AppointmentCard(data: widget.data,appointmentData: lastAppointmentData),
         ],
       );
     }
@@ -338,7 +341,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
           style: kDashBoxHeadTextStyle,
         ),
         SizedBox(height: 20.0,),
-        for (var i in scheduledAppointmentsData) AppointmentCard(appointmentData: i, marginBottom: true,),
+        for (var i in scheduledAppointmentsData) AppointmentCard(data: widget.data, appointmentData: i, marginBottom: true,),
         RoundedButton(
             color: kSecondColor,
             text: 'Schedule New',

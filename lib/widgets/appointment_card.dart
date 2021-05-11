@@ -1,3 +1,4 @@
+import 'package:e_healthcare/screens/patient/past_appointment_details.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:e_healthcare/constants/constants.dart';
@@ -6,10 +7,12 @@ class AppointmentCard extends StatelessWidget {
   const AppointmentCard({
     @required this.appointmentData,
     this.marginBottom = false,
+    @required this.data
   });
 
   final appointmentData;
   final bool marginBottom;
+  final data;
 
   ImageProvider getImageUrl(userData) {
     if(userData['profile'] == null || userData['profile'] == '') {
@@ -27,7 +30,9 @@ class AppointmentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //TODO: Appointment Details
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return PastAppointmentDetails(data: data, appointmentId: appointmentData['id']);
+        }));
       },
       child: Container(
         margin: EdgeInsets.only(bottom: (marginBottom)? 15.0: 0.0),

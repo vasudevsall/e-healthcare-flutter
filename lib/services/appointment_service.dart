@@ -7,6 +7,7 @@ class AppointmentService {
   String _getPastUrl = kURL + "/appointment?mode=P";
   String _getScheduledUrl = kURL + "/appointment?mode=F";
   String _newAppointment = kURL + "/appointment";
+  String _getAppointmentDetails = kURL + "/appointment/details?id=";
 
   Future<Response> getPastAppointments() async {
     var dio = Dio();
@@ -33,5 +34,11 @@ class AppointmentService {
     return await dio.post(
       _newAppointment, data: formData
     );
+  }
+
+  Future<Response> getAppointmentDetails(int id) async {
+    var dio = Dio();
+    dio.interceptors.add(await ServiceConstants.getCookieManager());
+    return await dio.get(_getAppointmentDetails + id.toString(),);
   }
 }

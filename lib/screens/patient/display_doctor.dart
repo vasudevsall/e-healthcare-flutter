@@ -1,6 +1,6 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
-import 'package:e_healthcare/screens/patient/doctor_detail_appointment.dart';
+import 'package:e_healthcare/screens/patient/new_appointment.dart';
 import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
 import 'package:e_healthcare/services/information_service.dart';
 import 'package:flutter/material.dart';
@@ -104,7 +104,7 @@ class _DisplayDoctorsState extends State<DisplayDoctors> {
         GestureDetector(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return DoctorDetailAppointment(username: i['userId']['username'], data: widget.data,);
+              return NewAppointment(username: i['userId']['username'], data: widget.data,);
             }));
           },
           child: Container(
@@ -148,7 +148,7 @@ class _DisplayDoctorsState extends State<DisplayDoctors> {
                   ElevatedButton(
                     onPressed: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return DoctorDetailAppointment(username: i['userId']['username'], data: widget.data,);
+                        return NewAppointment(username: i['userId']['username'], data: widget.data,);
                       }));
                     },
                     child: Center(

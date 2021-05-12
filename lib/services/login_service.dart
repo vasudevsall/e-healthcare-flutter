@@ -7,6 +7,7 @@ class LoginService {
   String verifyUrl = kURL + "/login-verify";
   String loginUrl = kURL + "/login";
   String registerUrl = kURL + "/register";
+  String passwordUrl = kURL + "/register/password";
 
   Future<Response> verifyLogin() async{
     var dio = Dio();
@@ -81,5 +82,19 @@ class LoginService {
         registerUrl, data: formData
     );
 
+  }
+
+  Future<Response> updatePassword(String password, String newPassword, String retype) async {
+    var dio = Dio();
+    dio.interceptors.add(await ServiceConstants.getCookieManager());
+
+    var formData = {
+      "password": password,
+      "newPassword": newPassword,
+      "retype": retype
+    };
+    return await dio.put(
+        passwordUrl, data: formData
+    );
   }
 }

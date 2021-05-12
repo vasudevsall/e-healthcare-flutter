@@ -14,6 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../main.dart';
 import 'account/account_information.dart';
+import 'account/change_password.dart';
+import 'account/update_information.dart';
 
 class PatientDashboard extends StatefulWidget {
   final data;
@@ -262,7 +264,9 @@ class _PatientDashboardState extends State<PatientDashboard> with RouteAware {
                     ),
                     DashItemTile(
                       onTap: (){
-                        //TODO: Method Implementation
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return UpdateInformation(data: widget.data,);
+                        }));
                       },
                       icon: FontAwesomeIcons.userEdit,
                       text: 'Update Information',
@@ -270,7 +274,9 @@ class _PatientDashboardState extends State<PatientDashboard> with RouteAware {
                     ),
                     DashItemTile(
                         onTap: (){
-                          //TODO: Method Implementation
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return ChangePassword(data: widget.data,);
+                          }));
                         },
                         icon: FontAwesomeIcons.userShield,
                         text: 'Change Password'

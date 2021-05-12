@@ -1,8 +1,8 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
+import 'package:e_healthcare/screens/patient/account/change_password.dart';
 import 'package:e_healthcare/screens/patient/account/update_information.dart';
 import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
-import 'package:e_healthcare/screens/register_screen.dart';
 import 'package:e_healthcare/services/appointment_service.dart';
 import 'package:e_healthcare/widgets/profile.dart';
 import 'package:flutter/cupertino.dart';
@@ -104,7 +104,9 @@ class _AccountInformationState extends State<AccountInformation> {
                   SizedBox(height: 5.0,),
                   ElevatedButton(
                     onPressed: (){
-                      // TODO Implementation change password
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return ChangePassword(data: widget.data,);
+                      }));
                     },
                     child: Text(
                       'Change Password',

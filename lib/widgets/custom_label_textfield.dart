@@ -11,6 +11,8 @@ class CustomLabelTextField extends StatefulWidget {
   final String hintText;
   final TextInputType keyboardType;
   final Function onChange;
+  final bool update;
+  final String initialValue;
 
   CustomLabelTextField({
     this.iconData,
@@ -19,7 +21,9 @@ class CustomLabelTextField extends StatefulWidget {
     this.obscureText = false,
     this.hintText = '',
     this.keyboardType = TextInputType.text,
-    @required this.onChange
+    @required this.onChange,
+    this.update = false,
+    this.initialValue = ''
   }):assert(validator != null),
      assert(onChange != null);
 
@@ -28,6 +32,17 @@ class CustomLabelTextField extends StatefulWidget {
 }
 
 class _CustomLabelTextFieldState extends State<CustomLabelTextField> {
+
+  TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    if(widget.initialValue != '') {
+      _controller = TextEditingController(text: widget.initialValue);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Column(
@@ -37,6 +52,7 @@ class _CustomLabelTextFieldState extends State<CustomLabelTextField> {
           text: widget.labelText,
         ),
         TextFormField(
+          controller: _controller,
           keyboardType: widget.keyboardType,
           validator: widget.validator,
           obscureText: widget.obscureText,
@@ -44,8 +60,12 @@ class _CustomLabelTextFieldState extends State<CustomLabelTextField> {
           style: TextStyle(
               fontSize: 14.0
           ),
-          decoration: kLoginRegisterInputDecoration.copyWith(
-              hintText: widget.hintText
+          decoration: (widget.update)?
+              kUpdateDetailsInputDecoration.copyWith(
+                hintText: widget.hintText
+              ):
+              kLoginRegisterInputDecoration.copyWith(
+                  hintText: widget.hintText
           ),
           onChanged: widget.onChange,
         ),

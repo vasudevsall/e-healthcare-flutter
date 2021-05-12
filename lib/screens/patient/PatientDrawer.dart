@@ -1,6 +1,7 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/widgets/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PatientDrawer extends StatefulWidget {
   final data;
@@ -44,6 +45,11 @@ class _PatientDrawerState extends State<PatientDrawer> {
                   url: url,
                   name: name,
                   gender: gender,
+                  style: GoogleFonts.montserrat(
+                    color: kBackColor,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w700,
+                  ),
                 )
               ),
               decoration: BoxDecoration(

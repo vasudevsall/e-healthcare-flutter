@@ -58,4 +58,28 @@ class LoginService {
       registerUrl, data: formData
     );
   }
+
+  Future<Response> updateUser(
+      String password, String firstName, String lastName,
+      String gender, String birthDate, String phoneNumber, String email,
+      String bloodGroup
+      ) async {
+    var dio = Dio();
+    dio.interceptors.add(await ServiceConstants.getCookieManager());
+
+    var formData = {
+      "password": password,
+      "firstName": firstName,
+      "lastName": lastName,
+      "gender": gender,
+      "birthDate": birthDate.toString(),
+      "phoneNumber": phoneNumber,
+      "email": email,
+      "bloodGroup": bloodGroup
+    };
+    return await dio.put(
+        registerUrl, data: formData
+    );
+
+  }
 }

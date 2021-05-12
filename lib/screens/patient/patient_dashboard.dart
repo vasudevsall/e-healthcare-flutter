@@ -13,6 +13,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../main.dart';
+import 'account/account_information.dart';
 
 class PatientDashboard extends StatefulWidget {
   final data;
@@ -252,7 +253,9 @@ class _PatientDashboardState extends State<PatientDashboard> with RouteAware {
                   children: [
                     DashItemTile(
                       onTap: (){
-                        //TODO: Method Implementation
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return AccountInformation(data: widget.data);
+                        }));
                       },
                       icon: FontAwesomeIcons.solidUser,
                       text: 'Account Details',

@@ -10,6 +10,7 @@ class CustomDropdownButton extends StatelessWidget {
   final List<DropdownMenuItem> items;
   final Function onChange;
   final String hintText;
+  final double radius;
 
   CustomDropdownButton({
     this.iconData,
@@ -17,7 +18,8 @@ class CustomDropdownButton extends StatelessWidget {
     this.value,
     @required this.items,
     @required this.onChange,
-    this.hintText = ''
+    this.hintText = '',
+    this.radius = 30.0
   }):assert(onChange != null),
      assert(items != null);
 
@@ -33,7 +35,7 @@ class CustomDropdownButton extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(30.0),
+            borderRadius: BorderRadius.circular(radius),
             border: Border.all(color: kPrimaryLight),
           ),
           padding: EdgeInsets.all(5.0),

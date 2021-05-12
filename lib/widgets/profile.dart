@@ -7,11 +7,17 @@ class Profile extends StatefulWidget {
   final String name;
   final String url;
   final String gender;
+  final TextStyle style;
+  final double spaceBetween;
+  final double radius;
 
   Profile({
     @required this.name,
     @required this.url,
-    @required this.gender
+    @required this.gender,
+    this.style,
+    this.spaceBetween = 20.0,
+    this.radius = 70.0
   });
 
   @override
@@ -76,20 +82,16 @@ class _ProfileState extends State<Profile> {
             //TODO: Change Profile Picture implementation
           },
           child: CircleAvatar(
-            radius: 70.0,
-            backgroundColor: kBackColor,
+            radius: widget.radius,
+            backgroundColor: kDarkBackColor.withOpacity(0.5),
             backgroundImage: selectImage(),
           ),
         ),
-        SizedBox(height: 20.0,),
+        SizedBox(height: widget.spaceBetween,),
         Text(
           widget.name,
           textAlign: TextAlign.center,
-          style: GoogleFonts.montserrat(
-            color: kBackColor,
-            fontSize: 16.0,
-            fontWeight: FontWeight.w700,
-          ),
+          style: widget.style,
         )
       ],
     );

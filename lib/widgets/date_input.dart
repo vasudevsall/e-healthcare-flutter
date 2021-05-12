@@ -5,9 +5,13 @@ import 'package:e_healthcare/widgets/icon_text_label.dart';
 class DateInput extends StatefulWidget {
 
   final Function onChange;
+  final bool update;
+  final String initialValue;
 
   DateInput({
-    @required this.onChange
+    @required this.onChange,
+    this.update = false,
+    this.initialValue = '',
   }):assert(onChange != null);
 
   @override
@@ -15,7 +19,15 @@ class DateInput extends StatefulWidget {
 }
 
 class _DateInputState extends State<DateInput> {
-  final dateController = TextEditingController();
+  TextEditingController dateController;
+
+  @override
+  void initState() {
+    super.initState();
+    if(widget.initialValue != '')
+      dateController = TextEditingController(text:  widget.initialValue);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -45,8 +57,12 @@ class _DateInputState extends State<DateInput> {
           style: TextStyle(
               fontSize: 14.0
           ),
-          decoration: kLoginRegisterInputDecoration.copyWith(
-              hintText: 'yyyy-mm-dd'
+          decoration: (widget.update)?
+            kUpdateDetailsInputDecoration.copyWith(
+                hintText: 'yyyy-mm-dd'
+            ):
+            kLoginRegisterInputDecoration.copyWith(
+                hintText: 'yyyy-mm-dd'
           ),
           onChanged: widget.onChange,
         ),

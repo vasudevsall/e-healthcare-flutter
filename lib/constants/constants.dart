@@ -38,6 +38,26 @@ const kLoginRegisterInputDecoration = InputDecoration(
   ),
 );
 
+const kUpdateDetailsInputDecoration = InputDecoration(
+  fillColor: Colors.white,
+  filled: true,
+  contentPadding: EdgeInsets.all(10.0),
+  isDense: true,
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderSide:
+    BorderSide(color: kPrimaryLight, width: 1.0),
+    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderSide:
+    BorderSide(color: kPrimaryColor, width: 2.0),
+    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+  ),
+);
+
 /* Login register constants */
 
 /* Dashboard constants */

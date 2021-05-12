@@ -8,18 +8,22 @@ import 'package:e_healthcare/widgets/appointment_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PastAppointments extends StatefulWidget {
+class AppointmentList extends StatefulWidget {
 
   final data;
-  PastAppointments({
-    this.data
+  final bool past;
+  final bool cancel;
+  AppointmentList({
+    this.data,
+    this.past = true,
+    this.cancel = false
   });
 
   @override
-  _PastAppointmentsState createState() => _PastAppointmentsState();
+  _AppointmentListState createState() => _AppointmentListState();
 }
 
-class _PastAppointmentsState extends State<PastAppointments> {
+class _AppointmentListState extends State<AppointmentList> {
 
   var appointmentList;
   bool listAvailable = false;
@@ -28,7 +32,9 @@ class _PastAppointmentsState extends State<PastAppointments> {
     AppointmentService appointmentService = AppointmentService();
 
     try {
-      var resp = await appointmentService.getPastAppointments();
+      var resp;
+      if(widget.past)   resp = await appointmentService.getPastAppointments();
+      else  resp = await appointmentService.getScheduledAppointments();
       setState(() {
         appointmentList = resp.data;
         listAvailable = true;
@@ -84,9 +90,14 @@ class _PastAppointmentsState extends State<PastAppointments> {
       );
     }
 
-    return ListView(
+    List<Widget> itemList = _generateAppointmentList();
+
+    return ListView.builder(
       padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
-      children: _generateAppointmentList(),
+      itemCount: itemList.length,
+      itemBuilder: (context, index) {
+        return itemList[index];
+      },
     );
   }
 
@@ -95,7 +106,7 @@ class _PastAppointmentsState extends State<PastAppointments> {
 
     returnList.add(
         Text(
-          'Past Appointments',
+          (widget.past)?'Past Appointments':(widget.cancel)?'Select Appointment to Cancel':'Scheduled Appointments',
           style: kDashBoxHeadTextStyle.copyWith(
               color: kPrimaryLight
           ),

@@ -1,6 +1,7 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/doctor_details.dart';
+import 'package:e_healthcare/screens/patient/patient_dashboard.dart';
 import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
 import 'package:e_healthcare/services/appointment_service.dart';
 import 'package:e_healthcare/services/information_service.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:group_button/group_button.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class NewAppointment extends StatefulWidget {
   final data;
@@ -33,6 +35,7 @@ class _NewAppointmentState extends State<NewAppointment> {
   String selectedSlot = '';
   String scheduleError = '';
   bool error = true;
+  bool _scheduling = false; 
 
   void _getDoctorDetails() async {
     InformationService informationService = InformationService();
@@ -75,9 +78,12 @@ class _NewAppointmentState extends State<NewAppointment> {
 
   @override
   Widget build(BuildContext context) {
-    return PatientScaffold(
-      drawer: PatientDrawer(data: widget.data,),
-      body: _doctorDetails(),
+    return ModalProgressHUD(
+      inAsyncCall: _scheduling,
+      child: PatientScaffold(
+        drawer: PatientDrawer(data: widget.data,),
+        body: _doctorDetails(),
+      ),
     );
   }
 
@@ -121,9 +127,9 @@ class _NewAppointmentState extends State<NewAppointment> {
                   Text(
                     'Select Day:',
                     style: GoogleFonts.notoSans(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w700,
-                      color: kDarkBackColor
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w700,
+                        color: kDarkBackColor
                     ),
                   ),
                   GroupButton(
@@ -142,9 +148,9 @@ class _NewAppointmentState extends State<NewAppointment> {
                     unselectedColor: Colors.transparent,
                     unselectedBorderColor: Colors.white,
                     unselectedTextStyle: GoogleFonts.notoSans(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white
                     ),
                     selectedColor: Colors.white,
                     selectedBorderColor: kPrimaryColor,
@@ -163,9 +169,9 @@ class _NewAppointmentState extends State<NewAppointment> {
                   Text(
                     'Select Time:',
                     style: GoogleFonts.notoSans(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w700,
-                      color: kDarkBackColor
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w700,
+                        color: kDarkBackColor
                     ),
                   ),
                   GroupButton(
@@ -207,7 +213,7 @@ class _NewAppointmentState extends State<NewAppointment> {
               ),
               SizedBox(height: 15.0,),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if(selectedDay == -1) {
                     setState(() {
                       scheduleError = 'Select Appointment Date';
@@ -219,19 +225,22 @@ class _NewAppointmentState extends State<NewAppointment> {
                       error = true;
                     });
                   } else {
-                    _scheduleAppointment();
+                    setState(() {
+                      _scheduling = true;
+                    });
+                    await _scheduleAppointment();
                   }
                 },
                 child: Text(
                   'Schedule Appointment',
                   style: GoogleFonts.montserrat(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: kSecondColor
+                    primary: kSecondColor
                 ),
               )
             ],
@@ -241,21 +250,70 @@ class _NewAppointmentState extends State<NewAppointment> {
     );
   }
 
-  void _scheduleAppointment() async {
+  Future<void> _scheduleAppointment() async {
     AppointmentService appointmentService = AppointmentService();
     try {
       var resp = await appointmentService.addNewAppointment(widget.username, dateList[selectedDay], selectedSlot);
 
       setState(() {
-        error = false;
-        scheduleError = 'Appointment Scheduled';
+        _scheduling = false;
       });
+      await _showScheduledDialog();
+      Route route = MaterialPageRoute(
+          builder: (context) {
+            return PatientDashboard(data: widget.data);
+          }
+      );
+      Navigator.pushAndRemoveUntil(context, route, (route) => false);
     } catch(e) {
       setState(() {
         error = true;
         scheduleError = e.response.data['message'].toString();
+        setState(() {
+          _scheduling = false;
+        });
       });
     }
+  }
+
+  Future<bool> _showScheduledDialog() async {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  'Appointment scheduled!',
+                  style: GoogleFonts.notoSans(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: (){
+                Navigator.of(context).pop(true);
+              },
+              child: Text('Ok'),
+              style: TextButton.styleFrom(
+                textStyle: GoogleFonts.notoSans(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
 }

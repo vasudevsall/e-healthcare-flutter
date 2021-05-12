@@ -8,7 +8,7 @@ class DashItemTile extends StatelessWidget {
   DashItemTile({
     @required this.onTap,
     this.height = 100.0,
-    this.width = 90.0,
+    this.width = 100.0,
     this.backgroundColor = Colors.white,
     this.splashColor = kPrimaryOther,
     @required this.icon,
@@ -33,7 +33,7 @@ class DashItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 7.5, right: 7.5),
+      margin: EdgeInsets.only(left: 5.0, right: 5.0),
       child: SizedBox(
         height: height,
         width: width,
@@ -53,14 +53,17 @@ class DashItemTile extends StatelessWidget {
                     size: iconSize,
                   ),
                   Expanded(
-                    child: Center(
-                      child: Text(
-                        text,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.libreFranklin(
-                            fontSize: fontSize,
-                            fontWeight: FontWeight.w500,
-                            color: color
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Center(
+                        child: Text(
+                          text,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.libreFranklin(
+                              fontSize: fontSize,
+                              fontWeight: FontWeight.w500,
+                              color: color
+                          ),
                         ),
                       ),
                     ),

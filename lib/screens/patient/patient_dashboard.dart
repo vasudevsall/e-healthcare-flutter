@@ -1,6 +1,6 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
-import 'package:e_healthcare/screens/patient/past_appointments.dart';
+import 'package:e_healthcare/screens/patient/appointment_list.dart';
 import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
 import 'package:e_healthcare/screens/patient/search_doctor.dart';
 import 'package:e_healthcare/services/appointment_service.dart';
@@ -193,7 +193,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                     DashItemTile(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context){
-                          return PastAppointments(data: widget.data);
+                          return AppointmentList(data: widget.data);
                         }));
                       },
                       icon: FontAwesomeIcons.notesMedical,
@@ -202,14 +202,18 @@ class _PatientDashboardState extends State<PatientDashboard> {
                     ),
                     DashItemTile(
                       onTap: (){
-                        //TODO: Method Implementation
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return AppointmentList(data: widget.data, past: false);
+                        }));
                       },
                       icon: FontAwesomeIcons.calendarDay,
                       text: 'Scheduled Appointments'
                     ),
                     DashItemTile(
                         onTap: (){
-                        //TODO: Method Implementation
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return AppointmentList(data: widget.data, past: false, cancel: true,);
+                        }));
                       },
                       icon: FontAwesomeIcons.solidCalendarTimes,
                       text: 'Cancel Appointment',

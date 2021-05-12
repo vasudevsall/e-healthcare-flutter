@@ -1,4 +1,4 @@
-import 'package:e_healthcare/screens/patient/past_appointment_details.dart';
+import 'package:e_healthcare/screens/patient/appointment_details.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:e_healthcare/constants/constants.dart';
@@ -31,7 +31,7 @@ class AppointmentCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return PastAppointmentDetails(data: data, appointmentId: appointmentData['id']);
+          return AppointmentDetails(data: data, appointmentId: appointmentData['id']);
         }));
       },
       child: Container(

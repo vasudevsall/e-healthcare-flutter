@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../main.dart';
+
 class PatientDashboard extends StatefulWidget {
   final data;
   PatientDashboard({
@@ -22,7 +24,9 @@ class PatientDashboard extends StatefulWidget {
   _PatientDashboardState createState() => _PatientDashboardState();
 }
 
-class _PatientDashboardState extends State<PatientDashboard> {
+class _PatientDashboardState extends State<PatientDashboard> with RouteAware {
+
+
 
   var lastAppointmentData;
   bool lastAppointmentDataAvailable = false;
@@ -357,5 +361,27 @@ class _PatientDashboardState extends State<PatientDashboard> {
         ),
       ],
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context));
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    setState(() {
+      scheduledAppointmentsDataAvailable = false;
+      lastAppointmentDataAvailable = false;
+    });
+    getScheduledAppointmentData();
+    getAppointmentData();
   }
 }

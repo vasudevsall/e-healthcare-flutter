@@ -257,14 +257,9 @@ class _NewAppointmentState extends State<NewAppointment> {
 
       setState(() {
         _scheduling = false;
+        error = false;
+        scheduleError = 'Appointment scheduled successfully!';
       });
-      await _showScheduledDialog();
-      Route route = MaterialPageRoute(
-          builder: (context) {
-            return PatientDashboard(data: widget.data);
-          }
-      );
-      Navigator.pushAndRemoveUntil(context, route, (route) => false);
     } catch(e) {
       setState(() {
         error = true;
@@ -274,46 +269,6 @@ class _NewAppointmentState extends State<NewAppointment> {
         });
       });
     }
-  }
-
-  Future<bool> _showScheduledDialog() async {
-    return showDialog<bool>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                  'Appointment scheduled!',
-                  style: GoogleFonts.notoSans(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: (){
-                Navigator.of(context).pop(true);
-              },
-              child: Text('Ok'),
-              style: TextButton.styleFrom(
-                textStyle: GoogleFonts.notoSans(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
   }
 
 }

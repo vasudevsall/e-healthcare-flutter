@@ -3,6 +3,7 @@ import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(EHealthcareApp());
@@ -22,6 +23,7 @@ class EHealthcareApp extends StatelessWidget {
         primaryColor: kPrimaryColor
       ),
       home: SplashScreen(),
+      navigatorObservers: [routeObserver],
       // home: LoginScreen(),
     );
   }

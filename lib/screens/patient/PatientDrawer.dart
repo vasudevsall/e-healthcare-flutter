@@ -45,6 +45,7 @@ class _PatientDrawerState extends State<PatientDrawer> {
                   url: url,
                   name: name,
                   gender: gender,
+                  data: widget.data,
                   style: GoogleFonts.montserrat(
                     color: kBackColor,
                     fontSize: 16.0,

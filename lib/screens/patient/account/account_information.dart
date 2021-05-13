@@ -65,6 +65,7 @@ class _AccountInformationState extends State<AccountInformation> {
                     name: '${widget.data['firstName']} ${widget.data['lastName']}',
                     url: widget.data['profile'],
                     gender: widget.data['gender'],
+                    data: widget.data,
                     style: GoogleFonts.libreFranklin(
                       fontWeight: FontWeight.w500,
                       fontSize: 24.0,

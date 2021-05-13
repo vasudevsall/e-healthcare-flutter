@@ -1,6 +1,7 @@
 import 'package:e_healthcare/constants/constants.dart';
+import 'package:e_healthcare/screens/patient/account/change_profile_picture.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Profile extends StatefulWidget {
 
@@ -10,6 +11,8 @@ class Profile extends StatefulWidget {
   final TextStyle style;
   final double spaceBetween;
   final double radius;
+  final bool changePicture;
+  final data;
 
   Profile({
     @required this.name,
@@ -17,7 +20,9 @@ class Profile extends StatefulWidget {
     @required this.gender,
     this.style,
     this.spaceBetween = 20.0,
-    this.radius = 70.0
+    this.radius = 70.0,
+    this.changePicture = true,
+    @required this.data
   });
 
   @override
@@ -73,19 +78,16 @@ class _ProfileState extends State<Profile> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        GestureDetector(
-          onTap: () {
-            print("Change me");
-            setState(() {
-              url = 'images/male.png';
-            });
-            //TODO: Change Profile Picture implementation
-          },
-          child: CircleAvatar(
-            radius: widget.radius,
-            backgroundColor: kDarkBackColor.withOpacity(0.5),
-            backgroundImage: selectImage(),
-          ),
+        Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            CircleAvatar(
+              radius: widget.radius,
+              backgroundColor: kDarkBackColor.withOpacity(0.5),
+              backgroundImage: selectImage(),
+            ),
+            _displayEdit(),
+          ],
         ),
         SizedBox(height: widget.spaceBetween,),
         Text(
@@ -94,6 +96,31 @@ class _ProfileState extends State<Profile> {
           style: widget.style,
         )
       ],
+    );
+  }
+
+  Widget _displayEdit() {
+    if(!widget.changePicture) {
+      return Container();
+    }
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context){
+          return ChangeProfilePicture(data: widget.data);
+        }));
+      },
+      child: Container(
+        padding: EdgeInsets.all(8.0),
+        child: Icon(
+          FontAwesomeIcons.solidEdit,
+          color: Colors.white,
+          size: 18.0,
+        ),
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: kPrimaryLighter
+        ),
+      ),
     );
   }
 }

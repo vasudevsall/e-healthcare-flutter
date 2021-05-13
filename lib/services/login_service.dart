@@ -97,4 +97,20 @@ class LoginService {
         passwordUrl, data: formData
     );
   }
+
+  Future<Response> updateProfilePicture(
+      String password, String url
+      ) async {
+    var dio = Dio();
+    dio.interceptors.add(await ServiceConstants.getCookieManager());
+
+    var formData = {
+      "password": password,
+      "profile": url
+    };
+    return await dio.put(
+        registerUrl, data: formData
+    );
+
+  }
 }

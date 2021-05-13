@@ -1,5 +1,4 @@
 import 'package:e_healthcare/constants/constants.dart';
-import 'package:e_healthcare/screens/loggedin_screen.dart';
 import 'package:e_healthcare/services/login_service.dart';
 import 'package:e_healthcare/utilities/curve_painter.dart';
 import 'package:e_healthcare/utilities/route_helper.dart';

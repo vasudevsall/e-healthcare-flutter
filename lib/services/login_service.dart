@@ -8,6 +8,7 @@ class LoginService {
   String loginUrl = kURL + "/login";
   String registerUrl = kURL + "/register";
   String passwordUrl = kURL + "/register/password";
+  String logoutUrl = kURL + "/logout";
 
   Future<Response> verifyLogin() async{
     var dio = Dio();
@@ -112,5 +113,19 @@ class LoginService {
         registerUrl, data: formData
     );
 
+  }
+
+  Future<Response> logoutUser() async {
+    var dio = Dio();
+    dio.interceptors.add(await ServiceConstants.getCookieManager());
+    return await dio.get(
+      logoutUrl,
+      options: Options(
+          contentType: Headers.formUrlEncodedContentType,
+          followRedirects: false,
+          validateStatus: (status) { return status < 500; },
+          responseType: ResponseType.json
+      ),
+    );
   }
 }

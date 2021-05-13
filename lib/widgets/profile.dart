@@ -101,7 +101,7 @@ class _ProfileState extends State<Profile> {
 
   Widget _displayEdit() {
     if(!widget.changePicture) {
-      return Container();
+      return SizedBox();
     }
     return GestureDetector(
       onTap: () {

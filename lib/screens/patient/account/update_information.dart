@@ -1,7 +1,7 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/patient_dashboard.dart';
-import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
+import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/login_service.dart';
 import 'package:e_healthcare/widgets/custom_dropdown.dart';
 import 'package:e_healthcare/widgets/custom_label_textfield.dart';
@@ -60,7 +60,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       inAsyncCall: _updating,
-      child: PatientScaffold(
+      child: UserScaffold(
         drawer: PatientDrawer(data: widget.data,),
         body: ListView(
           padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),

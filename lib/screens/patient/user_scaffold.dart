@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:e_healthcare/constants/constants.dart';
 
-class PatientScaffold extends StatelessWidget {
-  const PatientScaffold({
+class UserScaffold extends StatelessWidget {
+  const UserScaffold({
     this.drawer,
     this.body
   });

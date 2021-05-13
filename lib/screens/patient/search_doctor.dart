@@ -2,7 +2,7 @@ import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/constants/specialityConstant.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/display_doctor.dart';
-import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
+import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/information_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,7 +46,7 @@ class _SearchDoctorState extends State<SearchDoctor> {
 
   @override
   Widget build(BuildContext context) {
-    return PatientScaffold(
+    return UserScaffold(
       drawer: PatientDrawer(data: widget.data),
       body: _specialitiesList()
     );

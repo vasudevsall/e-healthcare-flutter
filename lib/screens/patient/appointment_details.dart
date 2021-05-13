@@ -1,7 +1,7 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/doctor_details.dart';
-import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
+import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/appointment_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +52,7 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       inAsyncCall: _deleting,
-      child: PatientScaffold(
+      child: UserScaffold(
         drawer: PatientDrawer(data: widget.data),
         body: _formBody(),
       ),

@@ -1,6 +1,6 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
-import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
+import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/screens/patient/search_doctor.dart';
 import 'package:e_healthcare/services/appointment_service.dart';
 import 'package:e_healthcare/widgets/RoundedButton.dart';
@@ -53,7 +53,7 @@ class _AppointmentListState extends State<AppointmentList> {
 
   @override
   Widget build(BuildContext context) {
-    return PatientScaffold(
+    return UserScaffold(
       drawer: PatientDrawer(data: widget.data,),
       body: _getPastAppointments()
     );

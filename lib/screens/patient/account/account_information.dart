@@ -2,7 +2,7 @@ import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/account/change_password.dart';
 import 'package:e_healthcare/screens/patient/account/update_information.dart';
-import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
+import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/appointment_service.dart';
 import 'package:e_healthcare/widgets/profile.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,7 +45,7 @@ class _AccountInformationState extends State<AccountInformation> {
 
   @override
   Widget build(BuildContext context) {
-    return PatientScaffold(
+    return UserScaffold(
       drawer: PatientDrawer(data: widget.data,),
       body: Padding(
         padding: const EdgeInsets.all(15.0),

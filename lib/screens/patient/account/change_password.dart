@@ -1,6 +1,6 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
-import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
+import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/login_service.dart';
 import 'package:e_healthcare/widgets/custom_label_textfield.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       inAsyncCall: _updating,
-      child: PatientScaffold(
+      child: UserScaffold(
         drawer: PatientDrawer(data: widget.data,),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),

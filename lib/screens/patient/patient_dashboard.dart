@@ -1,7 +1,7 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/appointment_list.dart';
-import 'package:e_healthcare/screens/patient/patient_scaffold.dart';
+import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/screens/patient/search_doctor.dart';
 import 'package:e_healthcare/services/appointment_service.dart';
 import 'package:e_healthcare/widgets/RoundedButton.dart';
@@ -79,7 +79,7 @@ class _PatientDashboardState extends State<PatientDashboard> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    return PatientScaffold(
+    return UserScaffold(
       drawer: PatientDrawer(data: widget.data,),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),

@@ -12,7 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import '../patient_dashboard.dart';
-import '../patient_scaffold.dart';
+import '../user_scaffold.dart';
 
 class ChangeProfilePicture extends StatefulWidget {
   final data;
@@ -39,7 +39,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       inAsyncCall: _updating,
-      child: PatientScaffold(
+      child: UserScaffold(
         drawer: PatientDrawer(data: widget.data,),
         body: ListView(
           padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),

@@ -1,6 +1,8 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/doctor/doctor_dashboard.dart';
 import 'package:e_healthcare/screens/doctor/doctor_drawer.dart';
+import 'package:e_healthcare/screens/manager/manager_dashboard.dart';
+import 'package:e_healthcare/screens/manager/manager_drawer.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/patient_dashboard.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
@@ -49,7 +51,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
     }else if(widget.data['roles'] == kDoctor) {
       return DoctorDrawer(data: widget.data);
     } else {
-      return PatientDrawer(data: widget.data); //TODO Manager
+      return ManagerDrawer(data: widget.data);
     }
   }
 
@@ -59,7 +61,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
     }else if(widget.data['roles'] == kDoctor) {
       return DoctorDashboard(data: userData);
     } else {
-      return PatientDrawer(data: userData); //TODO Manager
+      return ManagerDashboard(data: userData);
     }
   }
 

@@ -1,5 +1,6 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/doctor/doctor_drawer.dart';
+import 'package:e_healthcare/screens/manager/manager_drawer.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/login_service.dart';
@@ -34,7 +35,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     }else if(widget.data['roles'] == kDoctor) {
       return DoctorDrawer(data: widget.data);
     } else {
-      return PatientDrawer(data: widget.data); //TODO Manager
+      return ManagerDrawer(data: widget.data);
     }
   }
 

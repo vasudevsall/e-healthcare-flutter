@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/doctor/doctor_dashboard.dart';
 import 'package:e_healthcare/screens/doctor/doctor_drawer.dart';
+import 'package:e_healthcare/screens/manager/manager_dashboard.dart';
+import 'package:e_healthcare/screens/manager/manager_drawer.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/services/login_service.dart';
 import 'package:e_healthcare/widgets/custom_label_textfield.dart';
@@ -110,7 +112,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
     }else if(widget.data['roles'] == kDoctor) {
       return DoctorDrawer(data: widget.data);
     } else {
-      return PatientDrawer(data: widget.data); //TODO Manager
+      return ManagerDrawer(data: widget.data);
     }
   }
 
@@ -120,7 +122,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
     }else if(widget.data['roles'] == kDoctor) {
       return DoctorDashboard(data: userData);
     } else {
-      return PatientDashboard(data: userData); //TODO Manager
+      return ManagerDashboard(data: userData);
     }
   }
 

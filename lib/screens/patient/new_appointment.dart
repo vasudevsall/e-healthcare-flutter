@@ -63,7 +63,7 @@ class _NewAppointmentState extends State<NewAppointment> {
     if(now.hour < 9) {
       todaySlots.add('Morning');
       todaySlots.add('Afternoon');
-    } else if(now.hour < 15) {//TODO Backto12
+    } else if(now.hour < 15) {
       todaySlots.add('Afternoon');
     }
 

@@ -1,4 +1,6 @@
 import 'package:e_healthcare/constants/constants.dart';
+import 'package:e_healthcare/screens/doctor/doctor_dashboard.dart';
+import 'package:e_healthcare/screens/doctor/doctor_drawer.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/patient_dashboard.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
@@ -41,6 +43,26 @@ class _UpdateInformationState extends State<UpdateInformation> {
   bool error = false;
   bool _updating = false;
 
+  Widget _getDrawer() {
+    if(widget.data['roles'] == kUser) {
+      return PatientDrawer(data: widget.data);
+    }else if(widget.data['roles'] == kDoctor) {
+      return DoctorDrawer(data: widget.data);
+    } else {
+      return PatientDrawer(data: widget.data); //TODO Manager
+    }
+  }
+
+  Widget _getDashboard() {
+    if(widget.data['roles'] == kUser) {
+      return PatientDashboard(data: userData);
+    }else if(widget.data['roles'] == kDoctor) {
+      return DoctorDashboard(data: userData);
+    } else {
+      return PatientDrawer(data: userData); //TODO Manager
+    }
+  }
+
 
   @override
   void initState() {
@@ -61,7 +83,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
     return ModalProgressHUD(
       inAsyncCall: _updating,
       child: UserScaffold(
-        drawer: PatientDrawer(data: widget.data,),
+        drawer: _getDrawer(),
         body: ListView(
           padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
           children: [
@@ -216,7 +238,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                             bool done = await _showMyDialog();
                             if(done) {
                               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                                return PatientDashboard(data: userData);
+                                return _getDashboard();
                               }), (route) => false);
                             }
                           }

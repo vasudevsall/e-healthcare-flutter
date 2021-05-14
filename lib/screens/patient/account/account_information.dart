@@ -1,4 +1,5 @@
 import 'package:e_healthcare/constants/constants.dart';
+import 'package:e_healthcare/screens/doctor/doctor_drawer.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/account/change_password.dart';
 import 'package:e_healthcare/screens/patient/account/update_information.dart';
@@ -12,8 +13,12 @@ import 'package:google_fonts/google_fonts.dart';
 class AccountInformation extends StatefulWidget {
 
   final data;
+  final userData;
+  final bool displayEdit;
   AccountInformation({
     @required this.data,
+    this.userData,
+    this.displayEdit = true,
   }):assert(data != null);
 
   @override
@@ -23,6 +28,7 @@ class AccountInformation extends StatefulWidget {
 class _AccountInformationState extends State<AccountInformation> {
 
   int appointmentNumber = 0;
+  var userData;
 
   void _getAppointmentCount() async {
     AppointmentService appointmentService = AppointmentService();
@@ -41,12 +47,30 @@ class _AccountInformationState extends State<AccountInformation> {
   void initState() {
     super.initState();
     _getAppointmentCount();
+
+    setState(() {
+      if(widget.userData == null) {
+        userData = widget.data;
+      } else {
+        userData = widget.userData;
+      }
+    });
+  }
+
+  Widget _getDrawer() {
+    if(widget.data['roles'] == kUser) {
+      return PatientDrawer(data: widget.data);
+    }else if(widget.data['roles'] == kDoctor) {
+      return DoctorDrawer(data: widget.data);
+    } else {
+      return PatientDrawer(data: widget.data); //TODO Manager
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return UserScaffold(
-      drawer: PatientDrawer(data: widget.data,),
+      drawer: _getDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: SizedBox.expand(
@@ -62,10 +86,11 @@ class _AccountInformationState extends State<AccountInformation> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Profile(
-                    name: '${widget.data['firstName']} ${widget.data['lastName']}',
-                    url: widget.data['profile'],
-                    gender: widget.data['gender'],
-                    data: widget.data,
+                    name: '${userData['firstName']} ${userData['lastName']}',
+                    url: userData['profile'],
+                    gender: userData['gender'],
+                    data: userData,
+                    changePicture: widget.displayEdit,
                     style: GoogleFonts.libreFranklin(
                       fontWeight: FontWeight.w500,
                       fontSize: 24.0,
@@ -77,50 +102,14 @@ class _AccountInformationState extends State<AccountInformation> {
                     color: kPrimaryOther,
                     thickness: 0.5,
                   ),
-                  _generateRowData('Username:', widget.data['username']),
-                  _generateRowData('Phone:', '+91-${widget.data['phoneNumber']}'),
-                  _generateRowData('Email Id:', widget.data['email']),
-                  _generateRowData('Birth Date:', widget.data['birthDate']),
-                  _generateRowData('Blood Group:', widget.data['bloodGroup']),
-                  _generateRowData('Gender:', (widget.data['gender'] == 'M')? 'Male' : (widget.data['gender'] == 'F')? 'Female':'Other'),
+                  _generateRowData('Username:', userData['username']),
+                  _generateRowData('Phone:', '+91-${userData['phoneNumber']}'),
+                  _generateRowData('Email Id:', userData['email']),
+                  _generateRowData('Birth Date:', userData['birthDate']),
+                  _generateRowData('Blood Group:', userData['bloodGroup']),
+                  _generateRowData('Gender:', (userData['gender'] == 'M')? 'Male' : (userData['gender'] == 'F')? 'Female':'Other'),
                   SizedBox(height: 30.0,),
-                  ElevatedButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return UpdateInformation(data: widget.data,);
-                      }));
-                    },
-                    child: Text(
-                      'Update Details',
-                      style: GoogleFonts.libreFranklin(
-                        color: Colors.white,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w700
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: kPrimaryLighter
-                    ),
-                  ),
-                  SizedBox(height: 5.0,),
-                  ElevatedButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return ChangePassword(data: widget.data,);
-                      }));
-                    },
-                    child: Text(
-                      'Change Password',
-                      style: GoogleFonts.libreFranklin(
-                          color: Colors.white,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w700
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        primary: kPrimaryLighter
-                    ),
-                  ),
+                  _generateEditButtons()
                 ],
               ),
             ),
@@ -150,6 +139,55 @@ class _AccountInformationState extends State<AccountInformation> {
           )
         ],
       ),
+    );
+  }
+
+  Widget _generateEditButtons() {
+    if(!widget.displayEdit) {
+      return SizedBox();
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ElevatedButton(
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return UpdateInformation(data: widget.data,);
+            }));
+          },
+          child: Text(
+            'Update Details',
+            style: GoogleFonts.libreFranklin(
+                color: Colors.white,
+                fontSize: 14.0,
+                fontWeight: FontWeight.w700
+            ),
+          ),
+          style: ElevatedButton.styleFrom(
+              primary: kPrimaryLighter
+          ),
+        ),
+        SizedBox(height: 5.0,),
+        ElevatedButton(
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (
+                context) {
+              return ChangePassword(data: widget.data,);
+            }));
+          },
+          child: Text(
+            'Change Password',
+            style: GoogleFonts.libreFranklin(
+                color: Colors.white,
+                fontSize: 14.0,
+                fontWeight: FontWeight.w700
+            ),
+          ),
+          style: ElevatedButton.styleFrom(
+              primary: kPrimaryLighter
+          ),
+        ),
+      ],
     );
   }
 

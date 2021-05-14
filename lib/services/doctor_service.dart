@@ -1,6 +1,5 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:dio/dio.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import './service_constants.dart';
 
 class DoctorService {
@@ -8,6 +7,7 @@ class DoctorService {
   String _upcoming = kURL + "/doctor/upcoming";
   String _next = kURL + "/doctor/next";
   String _update = kURL + "/doctor/update";
+  String _trends = kURL + "/doctor/analysis?days=";
 
   Future<Response> getUpcomingSlotDetails() async{
     var dio = Dio();
@@ -38,5 +38,11 @@ class DoctorService {
     };
     
     return await dio.post(_update, data: formData);
+  }
+
+  Future<Response> getAnalysis(int days) async{
+    var dio = Dio();
+    dio.interceptors.add(await ServiceConstants.getCookieManager());
+    return await dio.get(_trends + '$days',);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:e_healthcare/constants/constants.dart';
+import 'package:e_healthcare/screens/doctor/doctor_drawer.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/login_service.dart';
@@ -27,12 +28,22 @@ class _ChangePasswordState extends State<ChangePassword> {
   bool errorMess = false;
   bool _updating = false;
 
+  Widget _getDrawer() {
+    if(widget.data['roles'] == kUser) {
+      return PatientDrawer(data: widget.data);
+    }else if(widget.data['roles'] == kDoctor) {
+      return DoctorDrawer(data: widget.data);
+    } else {
+      return PatientDrawer(data: widget.data); //TODO Manager
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       inAsyncCall: _updating,
       child: UserScaffold(
-        drawer: PatientDrawer(data: widget.data,),
+        drawer: _getDrawer(),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
           child: Column(

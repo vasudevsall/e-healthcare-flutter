@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:e_healthcare/constants/constants.dart';
+import 'package:e_healthcare/screens/doctor/doctor_dashboard.dart';
+import 'package:e_healthcare/screens/doctor/doctor_drawer.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/services/login_service.dart';
 import 'package:e_healthcare/widgets/custom_label_textfield.dart';
@@ -40,7 +42,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
     return ModalProgressHUD(
       inAsyncCall: _updating,
       child: UserScaffold(
-        drawer: PatientDrawer(data: widget.data,),
+        drawer: _getDrawer(),
         body: ListView(
           padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
           children: [
@@ -83,7 +85,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
                         bool confirm = await _showMyDialog();
                         if(confirm) {
                           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                            return PatientDashboard(data: userData);
+                            return _getDashboard();
                           }), (route) => false);
                         }
                       },
@@ -100,6 +102,26 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         ),
       ),
     );
+  }
+
+  Widget _getDrawer() {
+    if(widget.data['roles'] == kUser) {
+      return PatientDrawer(data: widget.data);
+    }else if(widget.data['roles'] == kDoctor) {
+      return DoctorDrawer(data: widget.data);
+    } else {
+      return PatientDrawer(data: widget.data); //TODO Manager
+    }
+  }
+
+  Widget _getDashboard() {
+    if(widget.data['roles'] == kUser) {
+      return PatientDashboard(data: userData);
+    }else if(widget.data['roles'] == kDoctor) {
+      return DoctorDashboard(data: userData);
+    } else {
+      return PatientDashboard(data: userData); //TODO Manager
+    }
   }
 
   Future<bool> _showMyDialog() async {

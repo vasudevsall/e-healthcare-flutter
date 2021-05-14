@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
+/*Usr Constants*/
+
+const String kUser = 'ROLE_USER';
+const String kDoctor = 'ROLE_DOC';
+const String kManager = 'ROLE_MANAGE';
+
+/* User Constants Ends */
+
 /*Color Constants*/
 
 const Color kPrimaryColor = Color(0xff16697a);

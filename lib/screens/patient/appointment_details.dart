@@ -3,6 +3,7 @@ import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/doctor_details.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/appointment_service.dart';
+import 'package:e_healthcare/utilities/video_call.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -88,6 +89,7 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
                   (appointmentDetails['appointmentModel']['slot'] == 'M')
                       ? 'Morning'
                       : 'Afternoon'),
+              detailRow('Mode: ', (appointmentDetails['appointmentModel']['type'] == 'O')?'Offline':'Video'),
               detailRow('Token Number: ',
                   appointmentDetails['appointmentModel']['token'].toString()),
             ],
@@ -140,6 +142,10 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
         SizedBox(height: 15.0,),
         _displayCancelButton(appointmentDetails['appointmentModel']['date'],
             appointmentDetails['appointmentModel']['slot']),
+        _displayVideoCallButton(appointmentDetails['appointmentModel']['date'],
+          appointmentDetails['appointmentModel']['slot'],
+          appointmentDetails['appointmentModel']['type']
+        ),
       ],
     );
   }
@@ -222,7 +228,21 @@ class _AppointmentDetailsState extends State<AppointmentDetails> {
         ),
       );
     }
-    return Container();
+    return SizedBox();
+  }
+
+  Widget _displayVideoCallButton(String time, String slot, String type) {
+    List val = time.split("-");
+    int startHour = (slot == 'M') ? 8 : 14;
+    int endHour = (slot == 'M') ? 13:17;
+    DateTime appointmentStartDate = new DateTime(
+        int.parse(val[0]), int.parse(val[1]), int.parse(val[2]), startHour);
+    DateTime appointmentEndTIme = new DateTime(int.parse(val[0]), int.parse(val[1]), int.parse(val[2]), endHour);
+
+    if(type == 'V' && DateTime.now().isAfter(appointmentStartDate) && DateTime.now().isBefore(appointmentEndTIme)) {
+      return VideoCall(channel: 'appointment-${appointmentDetails['appointmentModel']['id']}');
+    }
+    return SizedBox();
   }
 
   Future<bool> _showMyDialog() async {

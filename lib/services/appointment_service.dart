@@ -22,14 +22,15 @@ class AppointmentService {
     return await dio.get(_getScheduledUrl,);
   }
 
-  Future<Response> addNewAppointment(String doctorUsername, String date, String slot) async {
+  Future<Response> addNewAppointment(String doctorUsername, String date, String slot, String type) async {
     var dio = Dio();
     dio.interceptors.add(await ServiceConstants.getCookieManager());
 
     var formData = {
       'doctorUsername': doctorUsername,
       'date': date,
-      'slot': slot
+      'slot': slot,
+      'type': type
     };
 
     return await dio.post(

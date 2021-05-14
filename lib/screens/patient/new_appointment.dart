@@ -29,13 +29,14 @@ class _NewAppointmentState extends State<NewAppointment> {
   bool detailsAvailable = false;
   List<String> dateList = [];
   List<String> slots = ['Morning', 'Afternoon'];
-  //TODO: Adding type video/offline
+  List<String> type = ['Offline', 'Video'];
   List<String> todaySlots = [];
   int selectedDay = -1;
   String selectedSlot = '';
+  String selectedType = '';
   String scheduleError = '';
   bool error = true;
-  bool _scheduling = false; 
+  bool _scheduling = false;
 
   void _getDoctorDetails() async {
     InformationService informationService = InformationService();
@@ -62,7 +63,7 @@ class _NewAppointmentState extends State<NewAppointment> {
     if(now.hour < 9) {
       todaySlots.add('Morning');
       todaySlots.add('Afternoon');
-    } else if(now.hour < 12) {
+    } else if(now.hour < 15) {//TODO Backto12
       todaySlots.add('Afternoon');
     }
 
@@ -212,6 +213,47 @@ class _NewAppointmentState extends State<NewAppointment> {
                 ],
               ),
               SizedBox(height: 15.0,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Select Time:',
+                    style: GoogleFonts.notoSans(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w700,
+                        color: kDarkBackColor
+                    ),
+                  ),
+                  GroupButton(
+                    buttons: type,
+                    onSelected: (index, isSelected){
+                      setState(() {
+                        selectedType = type[index][0];
+                        scheduleError = '';
+                        error = true;
+                      });
+                    },
+                    isRadio: true,
+                    spacing: 10.0,
+                    borderRadius: BorderRadius.circular(5.0),
+                    unselectedColor: Colors.transparent,
+                    unselectedBorderColor: Colors.white,
+                    unselectedTextStyle: GoogleFonts.notoSans(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white
+                    ),
+                    selectedColor: Colors.white,
+                    selectedBorderColor: kPrimaryColor,
+                    selectedTextStyle: GoogleFonts.notoSans(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w700,
+                        color: kPrimaryColor
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(height: 15.0,),
               ElevatedButton(
                 onPressed: () async {
                   if(selectedDay == -1) {
@@ -222,6 +264,11 @@ class _NewAppointmentState extends State<NewAppointment> {
                   } else if(selectedSlot == '') {
                     setState(() {
                       scheduleError = 'Select Appointment Slot';
+                      error = true;
+                    });
+                  } else if(selectedType == '') {
+                    setState(() {
+                      scheduleError = 'Select Appointment Type';
                       error = true;
                     });
                   } else {
@@ -253,7 +300,7 @@ class _NewAppointmentState extends State<NewAppointment> {
   Future<void> _scheduleAppointment() async {
     AppointmentService appointmentService = AppointmentService();
     try {
-      var resp = await appointmentService.addNewAppointment(widget.username, dateList[selectedDay], selectedSlot);
+      var resp = await appointmentService.addNewAppointment(widget.username, dateList[selectedDay], selectedSlot, selectedType);
 
       setState(() {
         _scheduling = false;

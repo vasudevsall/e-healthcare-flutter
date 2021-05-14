@@ -40,6 +40,8 @@ dependencies:
   font_awesome_flutter: ^9.0.0
   group_button: ^2.1.2
   modal_progress_hud: ^0.1.3
+  agora_rtc_engine: 1.0.15
+  permission_handler: ^3.0.0
 
 dev_dependencies:
   flutter_test:

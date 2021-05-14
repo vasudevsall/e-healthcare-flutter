@@ -5,6 +5,7 @@ import 'package:e_healthcare/screens/doctor/appointment_success.dart';
 import 'package:e_healthcare/screens/doctor/doctor_drawer.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/doctor_service.dart';
+import 'package:e_healthcare/utilities/video_call.dart';
 import 'package:e_healthcare/widgets/profile.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -92,6 +93,7 @@ class _DoctorAppointmentState extends State<DoctorAppointment> {
               )
             ],
           ),
+          _displayVideoCallButton(details['type']),
           SizedBox(height: 20.0,),
           Container(
             padding: EdgeInsets.all(15.0),
@@ -124,6 +126,7 @@ class _DoctorAppointmentState extends State<DoctorAppointment> {
                   _generateRowData('Birth Date: ', details['userId']['birthDate']),
                   _generateRowData('Age:',  getAge(details['userId']['birthDate'])),
                   _generateRowData('Email', details['userId']['email']),
+                  _generateRowData('Mode', (details['type'] == 'O')?'Offline':'Video'),
                 ],
               ),
             ),
@@ -290,6 +293,18 @@ class _DoctorAppointmentState extends State<DoctorAppointment> {
         ],
       ),
     );
+  }
+
+  Widget _displayVideoCallButton(String type) {
+    if(type == 'V') {
+      return Column(
+        children: [
+          SizedBox(height: 5.0,),
+          VideoCall(channel: 'appointment-${details['id']}'),
+        ],
+      );
+    }
+    return SizedBox();
   }
 
   Widget _getSelectedImage() {

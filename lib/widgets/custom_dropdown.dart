@@ -11,6 +11,7 @@ class CustomDropdownButton extends StatelessWidget {
   final Function onChange;
   final String hintText;
   final double radius;
+  final bool displayLabel;
 
   CustomDropdownButton({
     this.iconData,
@@ -19,7 +20,8 @@ class CustomDropdownButton extends StatelessWidget {
     @required this.items,
     @required this.onChange,
     this.hintText = '',
-    this.radius = 30.0
+    this.radius = 30.0,
+    this.displayLabel = true
   }):assert(onChange != null),
      assert(items != null);
 
@@ -28,10 +30,10 @@ class CustomDropdownButton extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        IconTextLabel(
+        (displayLabel)?IconTextLabel(
           iconData: iconData,
           text: labelText,
-        ),
+        ):SizedBox(),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,

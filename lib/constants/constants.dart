@@ -92,6 +92,14 @@ TextStyle kSubTextStyle = GoogleFonts.montserrat(
     color: kPrimaryLight
 );
 
+TextStyle kLabelTextStyle = GoogleFonts.notoSans(
+    fontSize: 16.0,
+    color: kDarkBackColor,
+    fontWeight: FontWeight.w700
+);
+
+const kScreenPadding = EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0);
+
 Widget kDashBoxSpinner = SleekCircularSlider(
   appearance: CircularSliderAppearance(
     spinnerMode: true,

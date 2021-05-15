@@ -5,17 +5,16 @@ class SimpleRowData extends StatelessWidget {
   final String title;
   final String value;
   final Function onPressed;
+  final Function valueOnPressed;
+  final bool bold;
 
   SimpleRowData({
     @required this.title,
     @required this.value,
     this.onPressed,
+    this.valueOnPressed,
+    this.bold = true,
   });
-  
-  TextStyle kTextStyle = GoogleFonts.notoSans(
-      fontSize: 14.0,
-      fontWeight: FontWeight.w700
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +24,30 @@ class SimpleRowData extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Material(
+            color: Colors.white,
             child: InkWell(
               onTap: onPressed,
               child: Text(
                 title,
-                style: kTextStyle,
+                style: GoogleFonts.notoSans(
+                  fontSize: 14.0,
+                  fontWeight: (bold)?FontWeight.w700:FontWeight.w400
+                )
               ),
             ),
           ),
-          Text(
-              value,
-              style: kTextStyle
+          Material(
+            color: Colors.white,
+            child: InkWell(
+              onTap: valueOnPressed,
+              child: Text(
+                  value,
+                  style: GoogleFonts.notoSans(
+                    fontSize: 14.0,
+                    fontWeight: (bold)?FontWeight.w700:FontWeight.w400
+                  )
+              ),
+            ),
           )
         ],
       ),

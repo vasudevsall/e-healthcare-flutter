@@ -6,9 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 class DoctorDetails extends StatelessWidget {
 
   final details;
+  final bool onlyHead;
 
   DoctorDetails({
-    @required this.details
+    @required this.details,
+    this.onlyHead = false,
   }):assert(details!=null);
 
   @override
@@ -56,8 +58,8 @@ class DoctorDetails extends StatelessWidget {
           ),
           decoration: kDashBoxDecoration,
         ),
-        SizedBox(height: 20.0,),
-        Container(
+        (onlyHead)?SizedBox():SizedBox(height: 20.0,),
+        (onlyHead)?SizedBox():Container(
           padding: EdgeInsets.all(15.0),
           decoration: kDashBoxDecoration,
           child: Row(
@@ -145,8 +147,8 @@ class DoctorDetails extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 20.0,),
-        Container(
+        (onlyHead)?SizedBox():SizedBox(height: 20.0,),
+        (onlyHead)?SizedBox():Container(
           padding: EdgeInsets.all(15.0),
           decoration: kDashBoxDecoration,
           child: Row(

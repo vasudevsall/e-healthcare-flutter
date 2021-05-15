@@ -26,6 +26,7 @@ class _CallPageState extends State<CallPage> {
   final _infoStrings = <String>[];
   bool muted = false;
   bool _debug = false;
+  bool switchViews = false;
 
   @override
   void dispose() {
@@ -140,7 +141,20 @@ class _CallPageState extends State<CallPage> {
 
   /// Video view wrapper
   Widget _videoView(view) {
-    return Expanded(child: Container(child: view));
+    return Container(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5.0),
+        child: view
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5.0),
+        boxShadow: [BoxShadow(color: Colors.white.withOpacity(0.5), offset: Offset(0.0, 0.0), blurRadius: 2.0)]
+      ),
+    );
+  }
+  
+  Widget _videoSingleView(view) {
+    return Expanded(child: Container(child: view,));
   }
 
   /// Video view row wrapper
@@ -160,30 +174,32 @@ class _CallPageState extends State<CallPage> {
       case 1:
         return Container(
             child: Column(
-              children: <Widget>[_videoView(views[0])],
+              children: <Widget>[_videoSingleView(views[0])],
             ));
       case 2:
         return Container(
-            child: Column(
+            child: Stack(
+              alignment: AlignmentDirectional.bottomEnd,
               children: <Widget>[
-                _expandedVideoRow([views[0]]),
-                _expandedVideoRow([views[1]])
-              ],
-            ));
-      case 3:
-        return Container(
-            child: Column(
-              children: <Widget>[
-                _expandedVideoRow(views.sublist(0, 2)),
-                _expandedVideoRow(views.sublist(2, 3))
-              ],
-            ));
-      case 4:
-        return Container(
-            child: Column(
-              children: <Widget>[
-                _expandedVideoRow(views.sublist(0, 2)),
-                _expandedVideoRow(views.sublist(2, 4))
+                (switchViews)?_videoView(views[0]):_videoView(views[1]),
+                SizedBox(
+                  height: 200.0,
+                  width: 150.0,
+                  child: Stack(
+                    children: [
+                      (switchViews)?_videoView(views[1]):_videoView(views[0]),
+                      GestureDetector(
+                        onTap: (){
+                          print("Hello");
+                          setState(() {
+                            switchViews = !switchViews;
+                          });
+                        },
+                        child: Container(color: Colors.transparent,)
+                      )
+                    ],
+                  )
+                ),
               ],
             ));
       default:

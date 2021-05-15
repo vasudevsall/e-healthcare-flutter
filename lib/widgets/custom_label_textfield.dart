@@ -13,6 +13,8 @@ class CustomLabelTextField extends StatefulWidget {
   final Function onChange;
   final bool update;
   final String initialValue;
+  final bool displayLabel;
+  final int maxLines;
 
   CustomLabelTextField({
     this.iconData,
@@ -23,7 +25,9 @@ class CustomLabelTextField extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     @required this.onChange,
     this.update = false,
-    this.initialValue = ''
+    this.initialValue = '',
+    this.displayLabel = true,
+    this.maxLines = 1,
   }):assert(validator != null),
      assert(onChange != null);
 
@@ -47,16 +51,17 @@ class _CustomLabelTextFieldState extends State<CustomLabelTextField> {
   Widget build(BuildContext context) {
     return  Column(
       children: [
-        IconTextLabel(
+        (widget.displayLabel)?IconTextLabel(
           iconData: widget.iconData,
           text: widget.labelText,
-        ),
+        ):SizedBox(),
         TextFormField(
           controller: _controller,
           keyboardType: widget.keyboardType,
           validator: widget.validator,
           obscureText: widget.obscureText,
           textAlign: TextAlign.center,
+          maxLines: widget.maxLines,
           style: TextStyle(
               fontSize: 14.0
           ),

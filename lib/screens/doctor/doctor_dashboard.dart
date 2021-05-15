@@ -9,6 +9,7 @@ import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/doctor_service.dart';
 import 'package:e_healthcare/widgets/dash_item_tile.dart';
 import 'package:e_healthcare/widgets/simple_row_data.dart';
+import 'package:e_healthcare/widgets/welcome_box.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -106,40 +107,10 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
             style: kHeadTextStyle,
           ),
           SizedBox(height: 20.0,),
-          Container(
-            padding: EdgeInsets.all(25.0),
-            decoration: kDashBoxDecoration,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Welcome,',
-                        style: kDashBoxHeadTextStyle,
-                      ),
-                      Flexible(
-                        fit: FlexFit.loose,
-                        child: Text(
-                          'Dr. ${widget.data['firstName']} ${widget.data['lastName']}',
-                          style: kDashBoxHeadTextStyle.copyWith(
-                            fontSize: 20.0
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                CircleAvatar(
-                  radius: 40.0,
-                  backgroundColor: kDarkBackColor.withOpacity(0.5),
-                  backgroundImage: getImageUrl(widget.data['profile'], widget.data['gender']),
-                )
-              ],
-            ),
+          WelcomeBox(
+            name: 'Dr. ${widget.data['firstName']} ${widget.data['lastName']}',
+            url: widget.data['profile'],
+            gender: widget.data['gender'],
           ),
           SizedBox(height: 15.0,),
           Container(
@@ -322,17 +293,5 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
         )
       ],
     );
-  }
-
-  ImageProvider getImageUrl(String url, String gender) {
-    if(url == null || url == '') {
-      if(gender == 'M') {
-        return AssetImage('images/male.png');
-      } else {
-        return AssetImage('images/female.png');
-      }
-    } else {
-      return NetworkImage(url);
-    }
   }
 }

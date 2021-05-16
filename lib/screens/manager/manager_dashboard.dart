@@ -1,6 +1,10 @@
 import 'package:e_healthcare/constants/constants.dart';
+import 'package:e_healthcare/screens/manager/rooms/add_room.dart';
 import 'package:e_healthcare/screens/manager/rooms/admit_patient.dart';
 import 'package:e_healthcare/screens/manager/rooms/room_current.dart';
+import 'package:e_healthcare/screens/manager/rooms/room_status.dart';
+import 'package:e_healthcare/screens/manager/users/add_new_user.dart';
+import 'package:e_healthcare/screens/manager/users/search_user.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/count_service.dart';
 import 'package:e_healthcare/widgets/dash_item_tile.dart';
@@ -10,6 +14,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../main.dart';
 import 'manager_drawer.dart';
 
 class ManagerDashboard extends StatefulWidget {
@@ -21,7 +26,7 @@ class ManagerDashboard extends StatefulWidget {
   _ManagerDashboardState createState() => _ManagerDashboardState();
 }
 
-class _ManagerDashboardState extends State<ManagerDashboard> {
+class _ManagerDashboardState extends State<ManagerDashboard> with RouteAware {
 
   var appointmentCount;
   var userCount;
@@ -145,7 +150,25 @@ class _ManagerDashboardState extends State<ManagerDashboard> {
                       },
                       icon: FontAwesomeIcons.userMinus,
                       text: 'Discharge Patient'
-                    )
+                    ),
+                    DashItemTile(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return RoomStatus(data: widget.data, allowBooking: false,);
+                          }));
+                        },
+                        icon: FontAwesomeIcons.solidHospital,
+                        text: 'Room\nStatus'
+                    ),
+                    DashItemTile(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return AddRoom(data: widget.data);
+                          }));
+                        },
+                        icon: FontAwesomeIcons.plusSquare,
+                        text: 'Add New Room'
+                    ),
                   ],
                 ),
               ),
@@ -156,7 +179,7 @@ class _ManagerDashboardState extends State<ManagerDashboard> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Rooms',
+                'Users',
                 style: kHeadTextStyle,
               ),
               SizedBox(
@@ -167,17 +190,35 @@ class _ManagerDashboardState extends State<ManagerDashboard> {
                   children: [
                     DashItemTile(
                         onTap: () {
-                          //TODO Implement Method (Admit Patient)
+                          //TODO Add New Doctor
                         },
-                        icon: FontAwesomeIcons.solidHospital,
-                        text: 'Room\nStatus'
+                        icon: FontAwesomeIcons.userNurse,
+                        text: 'Add New Doctor'
                     ),
                     DashItemTile(
                         onTap: () {
-                          //TODO Implement Method (Admitted Patients)
+                          //TODO Doctors
                         },
-                        icon: FontAwesomeIcons.plusSquare,
-                        text: 'Add New Room'
+                        icon: FontAwesomeIcons.userMd,
+                        text: 'Doctors'
+                    ),
+                    DashItemTile(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return AddNewUser(data: widget.data);
+                          }));
+                        },
+                        icon: FontAwesomeIcons.userPlus,
+                        text: 'Add New User'
+                    ),
+                    DashItemTile(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return SearchUser(data: widget.data, selectPatient: false,);
+                          }));
+                        },
+                        icon: FontAwesomeIcons.solidUser,
+                        text: 'Users'
                     ),
                   ],
                 ),
@@ -192,7 +233,7 @@ class _ManagerDashboardState extends State<ManagerDashboard> {
   Widget _generateCurrentStatus() {
     if(!appointmentCountAvailable || !userCountAvailable || !roomCountAvailable) {
       return Center(
-        child: kDashBoxAlternateSpinner,
+        child: kDashBoxSpinner,
       );
     }
 
@@ -234,5 +275,29 @@ class _ManagerDashboardState extends State<ManagerDashboard> {
         )
       ],
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context));
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    setState(() {
+      appointmentCountAvailable = false;
+      userCountAvailable = false;
+      roomCountAvailable = false;
+    });
+    _getAppointmentCount();
+    _getRoomCount();
+    _getUserCount();
   }
 }

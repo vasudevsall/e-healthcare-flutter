@@ -7,7 +7,7 @@ import 'package:e_healthcare/screens/manager/manager_dashboard.dart';
 import 'package:e_healthcare/screens/manager/manager_drawer.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/services/login_service.dart';
-import 'package:e_healthcare/widgets/custom_label_textfield.dart';
+import 'package:e_healthcare/widgets/custom_label_text_field.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

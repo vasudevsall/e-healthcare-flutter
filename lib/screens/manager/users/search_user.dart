@@ -1,9 +1,8 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/manager/manager_drawer.dart';
+import 'package:e_healthcare/screens/patient/account/account_information.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/manage_user_service.dart';
-import 'package:e_healthcare/widgets/profile.dart';
-import 'package:e_healthcare/widgets/welcome_box.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -125,6 +124,7 @@ class _SearchUserState extends State<SearchUser> {
     List<Widget> returnList = [];
 
     for(var i in patients) {
+      if(i['roles'] != kUser) continue;
       returnList.add(
         Container(
           decoration: BoxDecoration(
@@ -160,13 +160,33 @@ class _SearchUserState extends State<SearchUser> {
                   ),
                 ),
                 SizedBox(height: 10.0,),
-                ElevatedButton(
+                (widget.selectPatient)?ElevatedButton(
                   onPressed: (){
                       Navigator.pop(context, i['username']);
                   },
                   child: Center(
                       child: Text(
                         'Select',
+                        style: GoogleFonts.roboto(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white
+                        ),
+                      )
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(kDarkBackColor.withOpacity(0.5))
+                  ),
+                ):SizedBox(),
+                (widget.selectPatient)?SizedBox():ElevatedButton(
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return AccountInformation(data: widget.data, userData: i, displayEdit: false,);
+                    }));
+                  },
+                  child: Center(
+                      child: Text(
+                        'Details',
                         style: GoogleFonts.roboto(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w500,

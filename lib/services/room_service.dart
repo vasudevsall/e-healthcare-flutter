@@ -13,6 +13,22 @@ class RoomService {
     return await dio.get(_room + "?type=$type",);
   }
 
+  Future<Response> addRoom(int roomNumber, int floorNumber, int beds, String type, double price) async {
+    var dio = Dio();
+    dio.interceptors.add(await ServiceConstants.getCookieManager());
+
+    var formData = {
+      "id": roomNumber,
+      "floor": floorNumber,
+      "beds": beds,
+      "total": beds,
+      "type": type,
+      "price": price
+    };
+
+    return await dio.post(_room, data: formData);
+  }
+
   Future<Response> admitPatient(int roomNumber, String username, String docUsername, String diagnosis, String description) async {
     var dio = Dio();
     dio.interceptors.add(await ServiceConstants.getCookieManager());

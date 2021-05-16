@@ -26,6 +26,8 @@ class _DateInputState extends State<DateInput> {
     super.initState();
     if(widget.initialValue != '')
       dateController = TextEditingController(text:  widget.initialValue);
+    else
+      dateController = TextEditingController();
   }
 
   @override

@@ -6,7 +6,7 @@ import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/information_service.dart';
 import 'package:e_healthcare/services/room_service.dart';
 import 'package:e_healthcare/widgets/custom_dropdown.dart';
-import 'package:e_healthcare/widgets/custom_label_textfield.dart';
+import 'package:e_healthcare/widgets/custom_label_text_field.dart';
 import 'package:e_healthcare/widgets/select_input.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

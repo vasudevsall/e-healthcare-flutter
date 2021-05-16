@@ -105,7 +105,7 @@ Widget kDashBoxSpinner = SleekCircularSlider(
     spinnerMode: true,
     size: 36.0,
     customColors: CustomSliderColors(
-      trackColor: kPrimaryOther,
+      trackColor: kPrimaryOther.withOpacity(0.9),
       progressBarColor: Color(0xeeffffff),
     ),
   ),

@@ -8,7 +8,7 @@ import 'package:e_healthcare/screens/patient/patient_dashboard.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/login_service.dart';
 import 'package:e_healthcare/widgets/custom_dropdown.dart';
-import 'package:e_healthcare/widgets/custom_label_textfield.dart';
+import 'package:e_healthcare/widgets/custom_label_text_field.dart';
 import 'package:e_healthcare/widgets/date_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

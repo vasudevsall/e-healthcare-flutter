@@ -2,7 +2,7 @@ import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/constants/days_constant.dart';
 import 'package:e_healthcare/screens/doctor/doctor_drawer.dart';
 import 'package:e_healthcare/screens/patient/account/account_information.dart';
-import 'package:e_healthcare/screens/patient/doctor_details.dart';
+import 'package:e_healthcare/widgets/doctor_details.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/doctor_service.dart';
 import 'package:e_healthcare/services/information_service.dart';

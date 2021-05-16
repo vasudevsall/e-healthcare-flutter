@@ -2,6 +2,7 @@ import 'package:e_healthcare/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DoctorDetails extends StatelessWidget {
 
@@ -163,7 +164,12 @@ class DoctorDetails extends StatelessWidget {
                   margin: EdgeInsets.only(right: 7.5),
                   child: ElevatedButton.icon(
                     onPressed: (){
-                      //TODO: Open phone app
+                      Uri _phoneLauncherUri = Uri(
+                        scheme: 'tel',
+                        path: '+91${details['userId']['phoneNumber']}',
+                      );
+
+                      launch(_phoneLauncherUri.toString());
                     },
                     icon: Icon(
                       Icons.smartphone,
@@ -191,7 +197,12 @@ class DoctorDetails extends StatelessWidget {
                   margin: EdgeInsets.only(left: 7.5),
                   child: ElevatedButton.icon(
                     onPressed: (){
-                      //TODO: Open mail app
+                      Uri _emailLauncherUri = Uri(
+                        scheme: 'mailto',
+                        path: details['userId']['email'],
+                      );
+
+                      launch(_emailLauncherUri.toString());
                     },
                     icon: Icon(
                       FontAwesomeIcons.solidEnvelope,

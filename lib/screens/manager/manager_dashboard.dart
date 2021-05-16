@@ -5,6 +5,9 @@ import 'package:e_healthcare/screens/manager/rooms/room_current.dart';
 import 'package:e_healthcare/screens/manager/rooms/room_status.dart';
 import 'package:e_healthcare/screens/manager/users/add_new_user.dart';
 import 'package:e_healthcare/screens/manager/users/search_user.dart';
+import 'package:e_healthcare/screens/patient/account/account_information.dart';
+import 'package:e_healthcare/screens/patient/account/change_password.dart';
+import 'package:e_healthcare/screens/patient/account/update_information.dart';
 import 'package:e_healthcare/screens/patient/search_doctor.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/count_service.dart';
@@ -14,6 +17,7 @@ import 'package:e_healthcare/widgets/welcome_box.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../main.dart';
 import 'manager_drawer.dart';
@@ -117,7 +121,11 @@ class _ManagerDashboardState extends State<ManagerDashboard> with RouteAware {
             children: [
               Text(
                 'Admissions',
-                style: kHeadTextStyle,
+                style: GoogleFonts.libreFranklin(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w700,
+                    color: kPrimaryLight
+                ),
               ),
               SizedBox(
                 height: 110.0,
@@ -181,7 +189,11 @@ class _ManagerDashboardState extends State<ManagerDashboard> with RouteAware {
             children: [
               Text(
                 'Users',
-                style: kHeadTextStyle,
+                style: GoogleFonts.libreFranklin(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w700,
+                    color: kPrimaryLight
+                ),
               ),
               SizedBox(
                 height: 110.0,
@@ -229,7 +241,60 @@ class _ManagerDashboardState extends State<ManagerDashboard> with RouteAware {
                 ),
               ),
             ],
-          )
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(
+                'Account',
+                style: GoogleFonts.libreFranklin(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w700,
+                    color: kPrimaryLight
+                ),
+              ),
+
+              SizedBox(height: 10.0,),
+              SizedBox(
+                height: 110.0,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  children: [
+                    DashItemTile(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return AccountInformation(data: widget.data);
+                        }));
+                      },
+                      icon: FontAwesomeIcons.solidUser,
+                      text: 'Account Details',
+                    ),
+                    DashItemTile(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return UpdateInformation(data: widget.data,);
+                        }));
+                      },
+                      icon: FontAwesomeIcons.userEdit,
+                      text: 'Update Information',
+                      splashColor: kSecondColor,
+                    ),
+                    DashItemTile(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return ChangePassword(data: widget.data,);
+                          }));
+                        },
+                        icon: FontAwesomeIcons.userShield,
+                        text: 'Change Password'
+                    ),
+
+                  ],
+                ),
+              )
+            ],
+          ),
         ],
       ),
     );

@@ -135,7 +135,7 @@ class _RoomStatusState extends State<RoomStatus> {
                 SimpleRowData(title: 'Floor Number', value: i['floor'].toString()),
                 SimpleRowData(title: 'Total Beds', value: i['total'].toString()),
                 SimpleRowData(title: 'Beds Available', value: i['beds'].toString()),
-                SimpleRowData(title: 'Prime', value: '${'\u20B9'} ${i['price']}/-'),
+                SimpleRowData(title: 'Price', value: '${'\u20B9'} ${i['price']}/-'),
                 SizedBox(height: 5.0,),
                 (widget.allowBooking)?ElevatedButton(
                   onPressed: (i['beds'] == 0)?null:() {

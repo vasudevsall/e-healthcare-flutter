@@ -1,3 +1,4 @@
+import 'package:e_healthcare/screens/notification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:e_healthcare/constants/constants.dart';
 
@@ -20,12 +21,14 @@ class UserScaffold extends StatelessWidget {
           actions: <Widget>[
             IconButton(
                 icon: Icon(
-                  Icons.person,
+                  Icons.notifications,
                   size: 30.0,
                   color: kPrimaryColor,
                 ),
                 onPressed: () {
-                  //TODO: On pressed: User Dropdown
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return NotificationScreen();
+                  }));
                 }
             )
           ],

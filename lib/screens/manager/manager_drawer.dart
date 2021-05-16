@@ -1,5 +1,11 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/login_screen.dart';
+import 'package:e_healthcare/screens/manager/rooms/room_current.dart';
+import 'package:e_healthcare/screens/manager/rooms/room_status.dart';
+import 'package:e_healthcare/screens/manager/users/search_user.dart';
+import 'package:e_healthcare/screens/patient/account/account_information.dart';
+import 'package:e_healthcare/screens/patient/account/update_information.dart';
+import 'package:e_healthcare/screens/patient/search_doctor.dart';
 import 'package:e_healthcare/services/login_service.dart';
 import 'package:e_healthcare/widgets/profile.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +71,96 @@ class _ManagerDrawerState extends State<ManagerDrawer> {
                     color: kPrimaryColor
                 ),
               ),
+            ),
+            ListTile(
+              title: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(FontAwesomeIcons.solidUserCircle),
+                  SizedBox(width: 20.0,),
+                  Text('My Account'),
+                ],
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return AccountInformation(data: widget.data);
+                }));
+              },
+            ),
+            ListTile(
+              title: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(FontAwesomeIcons.userCog),
+                  SizedBox(width: 20.0,),
+                  Text('Account Settings'),
+                ],
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return UpdateInformation(data: widget.data,);
+                }));
+              },
+            ),
+            ListTile(
+              title: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(FontAwesomeIcons.userMd),
+                  SizedBox(width: 20.0,),
+                  Text('Doctors'),
+                ],
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return SearchDoctor(data: widget.data, details: true,);
+                }));
+              },
+            ),
+            ListTile(
+              title: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(FontAwesomeIcons.solidUser),
+                  SizedBox(width: 20.0,),
+                  Text('Users'),
+                ],
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return SearchUser(data: widget.data, selectPatient: false,);
+                }));
+              },
+            ),
+            ListTile(
+              title: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(FontAwesomeIcons.procedures),
+                  SizedBox(width: 20.0,),
+                  Text('Admitted Patients'),
+                ],
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return RoomCurrentStatus(data: widget.data);
+                }));
+              },
+            ),
+            ListTile(
+              title: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(FontAwesomeIcons.solidHospital),
+                  SizedBox(width: 20.0,),
+                  Text('Rooms'),
+                ],
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return RoomStatus(data: widget.data, allowBooking: false,);
+                }));
+              },
             ),
             ListTile(
               title: Row(

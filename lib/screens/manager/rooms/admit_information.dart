@@ -1,6 +1,6 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/manager/manager_drawer.dart';
-import 'package:e_healthcare/screens/patient/doctor_details.dart';
+import 'package:e_healthcare/widgets/doctor_details.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/room_service.dart';
 import 'package:e_healthcare/widgets/dash_card.dart';

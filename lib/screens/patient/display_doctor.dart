@@ -1,4 +1,5 @@
 import 'package:e_healthcare/constants/constants.dart';
+import 'package:e_healthcare/screens/doctor/doctor_analysis.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/screens/patient/new_appointment.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
@@ -14,10 +15,12 @@ class DisplayDoctors extends StatefulWidget {
   final data;
   final int mode;
   final String query;
+  final bool details;
   DisplayDoctors({
     @required this.data,
     this.mode = MODE_SPECIALITY,
-    this.query
+    this.query,
+    this.details = false
   });
   @override
   _DisplayDoctorsState createState() => _DisplayDoctorsState();
@@ -102,7 +105,11 @@ class _DisplayDoctorsState extends State<DisplayDoctors> {
     for(var i in doctorList) {
       list.add(
         GestureDetector(
-          onTap: () {
+          onTap:(widget.details)?(){
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return DoctorAnalysis(data: widget.data, managerRequest: true, docUsername: i['userId']['username'],);
+            }));
+          }: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return NewAppointment(username: i['userId']['username'], data: widget.data,);
             }));
@@ -128,12 +135,15 @@ class _DisplayDoctorsState extends State<DisplayDoctors> {
                     backgroundImage: getImageUrl(i['userId']['profile'], i['userId']['gender']),
                   ),
                   SizedBox(height: 15.0,),
-                  Text(
-                    'Dr. ${i['userId']['firstName']} ${i['userId']['lastName']}',
-                    style: GoogleFonts.montserrat(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w700
+                  FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      'Dr. ${i['userId']['firstName']} ${i['userId']['lastName']}',
+                      style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w700
+                      ),
                     ),
                   ),
                   Text(
@@ -146,14 +156,18 @@ class _DisplayDoctorsState extends State<DisplayDoctors> {
                   ),
                   SizedBox(height: 10.0,),
                   ElevatedButton(
-                    onPressed: (){
+                    onPressed: (widget.details)?(){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return DoctorAnalysis(data: widget.data, managerRequest: true, docUsername: i['userId']['username'],);
+                      }));
+                    }:(){
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
                         return NewAppointment(username: i['userId']['username'], data: widget.data,);
                       }));
                     },
                     child: Center(
                       child: Text(
-                        'Appointment',
+                        (widget.details)?'Details':'Appointment',
                         style: GoogleFonts.roboto(
                           fontSize: 14.0,
                           fontWeight: FontWeight.w500,

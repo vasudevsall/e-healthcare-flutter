@@ -5,6 +5,7 @@ import 'package:e_healthcare/screens/manager/rooms/room_current.dart';
 import 'package:e_healthcare/screens/manager/rooms/room_status.dart';
 import 'package:e_healthcare/screens/manager/users/add_new_user.dart';
 import 'package:e_healthcare/screens/manager/users/search_user.dart';
+import 'package:e_healthcare/screens/patient/search_doctor.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/count_service.dart';
 import 'package:e_healthcare/widgets/dash_item_tile.dart';
@@ -190,14 +191,18 @@ class _ManagerDashboardState extends State<ManagerDashboard> with RouteAware {
                   children: [
                     DashItemTile(
                         onTap: () {
-                          //TODO Add New Doctor
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return AddNewUser(data: widget.data, doctor: true,);
+                          }));
                         },
                         icon: FontAwesomeIcons.userNurse,
                         text: 'Add New Doctor'
                     ),
                     DashItemTile(
                         onTap: () {
-                          //TODO Doctors
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return SearchDoctor(data: widget.data, details: true,);
+                          }));
                         },
                         icon: FontAwesomeIcons.userMd,
                         text: 'Doctors'

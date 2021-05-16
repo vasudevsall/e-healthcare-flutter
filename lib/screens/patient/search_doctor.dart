@@ -10,8 +10,10 @@ import 'package:google_fonts/google_fonts.dart';
 class SearchDoctor extends StatefulWidget {
 
   final data;
+  final bool details;
   SearchDoctor({
-    @required this.data
+    @required this.data,
+    this.details = false,
   });
 
   @override
@@ -98,7 +100,7 @@ class _SearchDoctorState extends State<SearchDoctor> {
               splashColor: Colors.grey.withOpacity(0.5),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return DisplayDoctors(data: widget.data, query: speciality,);
+                  return DisplayDoctors(data: widget.data, query: speciality, details: widget.details,);
                 }));
               },
               borderRadius: BorderRadius.circular(5.0),

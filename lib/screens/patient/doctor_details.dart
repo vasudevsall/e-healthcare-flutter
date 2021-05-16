@@ -22,32 +22,37 @@ class DoctorDetails extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Dr. ${details['userId']['firstName']} ${details['userId']['lastName']}',
-                    style: kDashBoxHeadTextStyle.copyWith(
-                        fontSize: 20.0
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        'Dr. ${details['userId']['firstName']} ${details['userId']['lastName']}',
+                        style: kDashBoxHeadTextStyle.copyWith(
+                            fontSize: 20.0
+                        ),
+                      ),
                     ),
-                  ),
-                  Text(
-                    details['speciality']['speciality'],
-                    style: kSubTextStyle.copyWith(
-                      color: kDarkBackColor,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w700,
+                    Text(
+                      details['speciality']['speciality'],
+                      style: kSubTextStyle.copyWith(
+                        color: kDarkBackColor,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 20.0,),
-                  Text(
-                    details['qualification'],
-                    style: kDashBoxHeadTextStyle.copyWith(
-                        fontSize: 18.0
-                    ),
-                  )
-                ],
+                    SizedBox(height: 20.0,),
+                    Text(
+                      details['qualification'],
+                      style: kDashBoxHeadTextStyle.copyWith(
+                          fontSize: 18.0
+                      ),
+                    )
+                  ],
+                ),
               ),
               CircleAvatar(
                 radius: 60.0,
@@ -194,12 +199,15 @@ class DoctorDetails extends StatelessWidget {
                       color: kDarkBackColor,
                     ),
                     label: Flexible(
-                      child: Text(
-                        details['userId']['email'],
-                        style: GoogleFonts.libreFranklin(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w700,
-                            color: kDarkBackColor
+                      child: FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Text(
+                          details['userId']['email'],
+                          style: GoogleFonts.libreFranklin(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w700,
+                              color: kDarkBackColor
+                          ),
                         ),
                       ),
                     ),

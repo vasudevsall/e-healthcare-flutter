@@ -2,8 +2,11 @@ import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/constants/days_constant.dart';
 import 'package:e_healthcare/screens/doctor/doctor_drawer.dart';
 import 'package:e_healthcare/screens/patient/account/account_information.dart';
+import 'package:e_healthcare/screens/patient/doctor_details.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/doctor_service.dart';
+import 'package:e_healthcare/services/information_service.dart';
+import 'package:e_healthcare/services/manage_user_service.dart';
 import 'package:e_healthcare/widgets/simple_row_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,8 +14,12 @@ import 'package:pie_chart/pie_chart.dart';
 
 class DoctorAnalysis extends StatefulWidget {
   final data;
+  final bool managerRequest;
+  final String docUsername;
   DoctorAnalysis({
-    @required this.data
+    @required this.data,
+    this.managerRequest = false,
+    this.docUsername = '',
   });
   @override
   _DoctorAnalysisState createState() => _DoctorAnalysisState();
@@ -30,6 +37,8 @@ class _DoctorAnalysisState extends State<DoctorAnalysis> {
     kDarkBackColor,
     kBackColor
   ];
+  var docDetails;
+  var docDetailsAvailable = false;
 
   void _getInfoData() async {
     setState(() {
@@ -37,9 +46,15 @@ class _DoctorAnalysisState extends State<DoctorAnalysis> {
     });
 
     try {
-      DoctorService doctorService = DoctorService();
-      var resp = await doctorService.getAnalysis(days);
+      var resp;
 
+      if(!widget.managerRequest) {
+        DoctorService doctorService = DoctorService();
+        resp = await doctorService.getAnalysis(days);
+      } else {
+        ManageUserService manageUserService = ManageUserService();
+        resp = await manageUserService.getDoctorDetails(widget.docUsername, days);
+      }
       setState(() {
         info = resp.data;
         infoAvailable = true;
@@ -49,10 +64,25 @@ class _DoctorAnalysisState extends State<DoctorAnalysis> {
     }
   }
 
+  void _getDoctorDetails() async {
+    try {
+      InformationService informationService = InformationService();
+      var resp = await informationService.getDoctorByUsername(widget.docUsername);
+      setState(() {
+        docDetails = resp.data;
+        docDetailsAvailable = true;
+      });
+      _getInfoData();
+    } catch(e) {
+      print(e.response.data);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    _getInfoData();
+    if(widget.managerRequest) _getDoctorDetails();
+    else _getInfoData();
   }
 
   @override
@@ -72,6 +102,8 @@ class _DoctorAnalysisState extends State<DoctorAnalysis> {
     return ListView(
       padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
       children: [
+        (widget.managerRequest)?DoctorDetails(details: docDetails,):SizedBox(),
+        (widget.managerRequest)?SizedBox(height: 20.0,):SizedBox(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

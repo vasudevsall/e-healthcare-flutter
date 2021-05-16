@@ -2,6 +2,7 @@ import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/constants/user_constants.dart';
 import 'package:e_healthcare/screens/manager/manager_drawer.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
+import 'package:e_healthcare/services/information_service.dart';
 import 'package:e_healthcare/services/manage_user_service.dart';
 import 'package:e_healthcare/widgets/custom_dropdown.dart';
 import 'package:e_healthcare/widgets/custom_label_text_field.dart';
@@ -13,8 +14,10 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class AddNewUser extends StatefulWidget {
   final data;
+  final bool doctor;
   AddNewUser({
-    @required this.data
+    @required this.data,
+    this.doctor = false,
   });
   @override
   _AddNewUserState createState() => _AddNewUserState();
@@ -36,6 +39,34 @@ class _AddNewUserState extends State<AddNewUser> {
   String bloodGroup;
   bool _registering = false;
 
+  /* For doctor */
+  List specialityList = [];
+  String speciality;
+  int morningHours;
+  int afternoonHours;
+  String qualification;
+  int experience;
+
+  void _getSpecialities() async {
+    try {
+      InformationService informationService = InformationService();
+      var resp = await informationService.getAllSpecialities();
+      setState(() {
+        specialityList = resp.data;
+      });
+    } catch(e) {
+      print("Add Doctor = " + e.response.data);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if(widget.doctor) {
+      _getSpecialities();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
@@ -45,7 +76,10 @@ class _AddNewUserState extends State<AddNewUser> {
         body: ListView(
           padding: kScreenPadding,
           children: [
-            Text('Add New Patient', style: kHeadTextStyle,),
+            Text(
+              (widget.doctor)?'Add New Doctor':'Add New Patient',
+              style: kHeadTextStyle,
+            ),
             SizedBox(height: 10.0,),
             Text(
               displayMessage,
@@ -188,8 +222,7 @@ class _AddNewUserState extends State<AddNewUser> {
                     hintText: 'Select Blood Group',
                   ),
                   SizedBox(height: 20.0,),
-
-                  Column(
+                  (widget.doctor)?_doctorInformation():Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       ElevatedButton(
@@ -223,7 +256,7 @@ class _AddNewUserState extends State<AddNewUser> {
                             'Add User'
                         ),
                         style: ElevatedButton.styleFrom(
-                            primary: kPrimaryOther
+                            primary: kPrimaryColor
                         ),
                       ),
                     ],
@@ -236,6 +269,120 @@ class _AddNewUserState extends State<AddNewUser> {
         )
       ),
     );
+  }
+
+  Widget _doctorInformation() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        CustomDropdownButton(
+          items: _generateSpecialityList(),
+          onChange: (newVal) {
+            setState(() {
+              speciality = newVal;
+            });
+          },
+          value: speciality,
+          radius: 5.0,
+          hintText: 'Select Doctor Speciality',
+          iconData: FontAwesomeIcons.userTag,
+          labelText: 'Speciality',
+        ),
+        SizedBox(height: 20.0,),
+        CustomLabelTextField(
+          validator: (value) {return null;},
+          onChange: (newVal) {
+            morningHours = int.parse(newVal);
+          },
+          iconData: FontAwesomeIcons.sun,
+          labelText: 'Morning',
+          hintText: 'Enter Morning Appointment Hours',
+          update: true,
+          keyboardType: TextInputType.number,
+        ),
+        SizedBox(height: 20.0,),
+        CustomLabelTextField(
+          validator: (value) {return null;},
+          onChange: (newVal) {
+            afternoonHours = int.parse(newVal);
+          },
+          iconData: FontAwesomeIcons.solidSun,
+          labelText: 'Afternoon',
+          hintText: 'Enter Afternoon Appointment Hours',
+          update: true,
+          keyboardType: TextInputType.number,
+        ),
+        SizedBox(height: 20.0,),
+        CustomLabelTextField(
+          validator: (value) {return null;},
+          onChange: (newVal) {
+            qualification = newVal;
+          },
+          iconData: FontAwesomeIcons.graduationCap,
+          labelText: 'Qualification',
+          hintText: 'Enter Qualification',
+          update: true,
+        ),
+        SizedBox(height: 20.0,),
+        CustomLabelTextField(
+          validator: (value) {return null;},
+          onChange: (newVal) {
+            experience = int.parse(newVal);
+          },
+          iconData: FontAwesomeIcons.stethoscope,
+          labelText: 'Experience',
+          hintText: 'Enter Experience',
+          update: true,
+          keyboardType: TextInputType.number,
+        ),
+        SizedBox(height: 20.0,),
+        ElevatedButton(
+          onPressed: () async {
+              if(_formKey.currentState.validate()) {
+                setState(() {
+                  _registering = true;
+                });
+                try {
+                  ManageUserService manageUserService = ManageUserService();
+                  await manageUserService.addNewDoctor(
+                      username, firstName, lastName, gender, birthDate, phoneNumber,
+                      email, bloodGroup, speciality, (morningHours*60/5.0),
+                      (afternoonHours*60/5.0), qualification, experience
+                  );
+
+                  setState(() {
+                    _registering = false;
+                    displayError = false;
+                    displayMessage = 'Doctor Registered Successfully';
+                  });
+                } catch(e) {
+                  setState(() {
+                    _registering = false;
+                    displayError = true;
+                    displayMessage = e.response.data['message'];
+                  });
+                  print("Add Doctor: " + e.response.data);
+                }
+              }
+          },
+          child: Text('Add Doctor'),
+          style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+        )
+      ],
+    );
+  }
+
+  List<DropdownMenuItem> _generateSpecialityList() {
+    List<DropdownMenuItem> returnList = [];
+    for(var i in specialityList) {
+      returnList.add(
+          DropdownMenuItem(
+            child: Center(child: Text(i['speciality'])),
+            value: i['speciality'],
+          )
+      );
+    }
+    return returnList;
   }
 
 }

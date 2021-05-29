@@ -90,8 +90,9 @@ class AppointmentCard extends StatelessWidget {
                   child: Text(
                     'Get Details',
                     style: GoogleFonts.lato(
-                        fontSize: 11.0,
-                        fontWeight: FontWeight.w700
+                      fontSize: 11.0,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white
                     ),
                   ),
                   decoration: BoxDecoration(
@@ -99,7 +100,7 @@ class AppointmentCard extends StatelessWidget {
                           bottomRight: Radius.circular(5.0),
                           topLeft: Radius.circular(5.0)
                       ),
-                      color: kSecondColor
+                      color: kDarkBackColor.withOpacity(0.8)
                   ),
                 )
               ],

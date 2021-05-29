@@ -1,7 +1,6 @@
 import 'package:e_healthcare/constants/constants.dart';
 import 'package:e_healthcare/screens/patient/PatientDrawer.dart';
 import 'package:e_healthcare/widgets/doctor_details.dart';
-import 'package:e_healthcare/screens/patient/patient_dashboard.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/appointment_service.dart';
 import 'package:e_healthcare/services/information_service.dart';
@@ -217,7 +216,7 @@ class _NewAppointmentState extends State<NewAppointment> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Select Time:',
+                    'Select Type:',
                     style: GoogleFonts.notoSans(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w700,
@@ -287,7 +286,7 @@ class _NewAppointmentState extends State<NewAppointment> {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                    primary: kSecondColor
+                    primary: kDarkBackColor.withOpacity(0.7)
                 ),
               )
             ],

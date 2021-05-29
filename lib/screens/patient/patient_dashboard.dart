@@ -7,7 +7,6 @@ import 'package:e_healthcare/services/appointment_service.dart';
 import 'package:e_healthcare/widgets/RoundedButton.dart';
 import 'package:e_healthcare/widgets/appointment_card.dart';
 import 'package:e_healthcare/widgets/dash_item_tile.dart';
-import 'package:e_healthcare/widgets/search_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -86,7 +85,7 @@ class _PatientDashboardState extends State<PatientDashboard> with RouteAware {
         children: <Widget>[
           SizedBox(height: 20.0,),
           Container(
-            padding: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 5.0),
+            padding: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 15.0),
             decoration: kDashBoxDecoration,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -118,34 +117,13 @@ class _PatientDashboardState extends State<PatientDashboard> with RouteAware {
                   ),
                 ),
                 SizedBox(height: 10.0,),
-                SearchTextField(
-                  onSubmitted: (value){
-                    //TODO: On Pressed, search Doctor
+                ElevatedButton(
+                  onPressed: () {
+                    //TODO Messaging Screen
                   },
-                  onChanged: (newVal){
-                    //TODO: On change
-                  },
+                  child: Text('Connect'),
+                  style: ElevatedButton.styleFrom(primary: kDarkBackColor.withOpacity(0.6)),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          return SearchDoctor(data: widget.data);
-                        }));
-                      },
-                      child: Text(
-                        'Search by Speciality',
-                        style: GoogleFonts.montserrat(
-                          color: kPrimaryLight,
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w700
-                        ),
-                      ),
-                    )
-                  ],
-                )
               ],
             ),
           ),
@@ -359,14 +337,14 @@ class _PatientDashboardState extends State<PatientDashboard> with RouteAware {
         ),
         SizedBox(height: 20.0,),
         for (var i in scheduledAppointmentsData) AppointmentCard(data: widget.data, appointmentData: i, marginBottom: true,),
-        RoundedButton(
-            color: kSecondColor,
-            text: 'Schedule New',
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return SearchDoctor(data: widget.data);
-              }));
-            }
+        ElevatedButton(
+          child: Text('Schedule New'),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return SearchDoctor(data: widget.data);
+            }));
+          },
+          style: ElevatedButton.styleFrom(primary: kDarkBackColor.withOpacity(0.6)),
         ),
       ],
     );

@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 const List<DropdownMenuItem> daysList = [
   DropdownMenuItem(
     child: Center(
+      child: Text('10 days'),
+    ),
+    value: 10,
+  ),
+  DropdownMenuItem(
+    child: Center(
       child: Text('30 days'),
     ),
     value: 30,

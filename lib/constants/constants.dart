@@ -124,5 +124,15 @@ Widget kDashBoxAlternateSpinner = SleekCircularSlider(
 
 /* Dashboard Constants */
 
+/* Pie charts */
+final List<Color> colorList = [
+  kPrimaryColor,
+  kPrimaryLighter,
+  kPrimaryLight,
+  kPrimaryOther,
+  kDarkBackColor,
+  kBackColor
+];
+
 /* URL Constants */
 const kURL = 'https://e-healthcare-mobile.herokuapp.com';

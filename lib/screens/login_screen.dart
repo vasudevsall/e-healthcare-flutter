@@ -3,6 +3,7 @@ import 'package:e_healthcare/services/login_service.dart';
 import 'package:e_healthcare/utilities/curve_painter.dart';
 import 'package:e_healthcare/utilities/route_helper.dart';
 import 'package:e_healthcare/widgets/RoundedButton.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -52,6 +53,11 @@ class _LoginScreenState extends State<LoginScreen> {
       var response = await loginService.verifyLogin();
 
       RouteHelper routeHelper = RouteHelper();
+
+      FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+      await firebaseMessaging.getToken().then((value) => print(value));
+
+
       setState(() {
         _loggingIn = false;
       });

@@ -29,14 +29,6 @@ class _DoctorAnalysisState extends State<DoctorAnalysis> {
   var info;
   var infoAvailable = false;
   int days = 30;
-  final List<Color> colorList = [
-    kPrimaryColor,
-    kPrimaryLighter,
-    kPrimaryLight,
-    kPrimaryOther,
-    kDarkBackColor,
-    kBackColor
-  ];
   var docDetails;
   var docDetailsAvailable = false;
 
@@ -100,7 +92,7 @@ class _DoctorAnalysisState extends State<DoctorAnalysis> {
       );
     }
     return ListView(
-      padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
+      padding: kScreenPadding,
       children: [
         (widget.managerRequest)?DoctorDetails(details: docDetails,):SizedBox(),
         (widget.managerRequest)?SizedBox(height: 20.0,):SizedBox(),
@@ -108,7 +100,7 @@ class _DoctorAnalysisState extends State<DoctorAnalysis> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Analysis',
+              'Recent',
               style: kHeadTextStyle,
             ),
             Container(

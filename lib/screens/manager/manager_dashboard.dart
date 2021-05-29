@@ -1,4 +1,5 @@
 import 'package:e_healthcare/constants/constants.dart';
+import 'package:e_healthcare/screens/manager/manager_analysis.dart';
 import 'package:e_healthcare/screens/manager/rooms/add_room.dart';
 import 'package:e_healthcare/screens/manager/rooms/admit_patient.dart';
 import 'package:e_healthcare/screens/manager/rooms/room_current.dart';
@@ -334,7 +335,9 @@ class _ManagerDashboardState extends State<ManagerDashboard> with RouteAware {
         SizedBox(height: 5.0,),
         ElevatedButton(
           onPressed: () {
-            //TODO: On Pressed
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return ManagerAnalysis(data: widget.data);
+            }));
           },
           child: Text(
             'More Details',

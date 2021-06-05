@@ -85,7 +85,7 @@ class _PatientDashboardState extends State<PatientDashboard> with RouteAware {
         children: <Widget>[
           SizedBox(height: 20.0,),
           Container(
-            padding: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 15.0),
+            padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 10.0),
             decoration: kDashBoxDecoration,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -306,6 +306,7 @@ class _PatientDashboardState extends State<PatientDashboard> with RouteAware {
     } else if(scheduledAppointmentsData.length == 0) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text(
             'No appointment scheduled',
@@ -315,14 +316,15 @@ class _PatientDashboardState extends State<PatientDashboard> with RouteAware {
                 color: Colors.black87
             ),
           ),
-          RoundedButton(
-              color: kSecondColor,
-              text: 'Schedule New',
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return SearchDoctor(data: widget.data);
-                }));
-              }
+          SizedBox(height: 10.0,),
+          ElevatedButton(
+            child: Text('Schedule New'),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return SearchDoctor(data: widget.data);
+              }));
+            },
+            style: ElevatedButton.styleFrom(primary: kDarkBackColor.withOpacity(0.6)),
           ),
         ],
       );

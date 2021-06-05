@@ -54,10 +54,10 @@ class _NewAppointmentState extends State<NewAppointment> {
 
   void _createDateList() {
     DateTime now = DateTime.now().toLocal();
-    dateList.add('${now.year}-${(now.month < 10)?'0${now.month}':now.month}-${now.day}');
+    dateList.add('${now.year}-${(now.month < 10)?'0${now.month}':now.month}-${(now.day < 10)?'0${now.day}':now.day}');
 
     DateTime nextDay = DateTime(now.year, now.month, now.day + 1);
-    dateList.add('${nextDay.year}-${(nextDay.month < 10)?'0${nextDay.month}':nextDay.month}-${nextDay.day}');
+    dateList.add('${nextDay.year}-${(nextDay.month < 10)?'0${nextDay.month}':nextDay.month}-${(nextDay.day < 10)?'0${nextDay.day}':nextDay.day}');
 
     if(now.hour < 9) {
       todaySlots.add('Morning');

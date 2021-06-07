@@ -1,4 +1,5 @@
 import 'package:e_healthcare/constants/constants.dart';
+import 'package:e_healthcare/screens/forgot_password.dart';
 import 'package:e_healthcare/services/login_service.dart';
 import 'package:e_healthcare/utilities/curve_painter.dart';
 import 'package:e_healthcare/utilities/route_helper.dart';
@@ -143,7 +144,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
-                                // TODO: Link to Forgot Password Page
+                                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                  return ForgotPassword();
+                                }));
                               },
                               splashColor: Colors.lightBlueAccent.withOpacity(0.3),
                               child: Padding(

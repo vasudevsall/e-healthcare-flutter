@@ -9,6 +9,8 @@ class LoginService {
   String registerUrl = kURL + "/register";
   String passwordUrl = kURL + "/register/password";
   String logoutUrl = kURL + "/logout";
+  String forgotPassword = kURL + "/register/forgot";
+  String verifyOtp = kURL + "/register/verify/otp";
 
   Future<Response> verifyLogin() async{
     var dio = Dio();
@@ -127,5 +129,31 @@ class LoginService {
           responseType: ResponseType.json
       ),
     );
+  }
+  
+  Future<Response> sendOtp(String username) async {
+    var dio = Dio();
+    dio.interceptors.add(await ServiceConstants.getCookieManager());
+    return await dio.get(forgotPassword+'?username=$username');
+  }
+
+  Future<Response> validateOtp(String username, int otp) async {
+    var dio = Dio();
+    dio.interceptors.add(await ServiceConstants.getCookieManager());
+
+    return await dio.post(verifyOtp+'?username=$username', data: otp);
+  }
+
+  Future<Response> forgotPassChange(String username, String password, String newPassword, String retype) async {
+    var dio = Dio();
+    dio.interceptors.add(await ServiceConstants.getCookieManager());
+
+    var formData = {
+      "password": password,
+      "newPassword": newPassword,
+      "retype": retype
+    };
+
+    return await dio.post(forgotPassword+'?username=$username', data: formData);
   }
 }

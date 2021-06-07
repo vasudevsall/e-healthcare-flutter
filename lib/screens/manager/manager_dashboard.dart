@@ -4,6 +4,9 @@ import 'package:e_healthcare/screens/manager/rooms/add_room.dart';
 import 'package:e_healthcare/screens/manager/rooms/admit_patient.dart';
 import 'package:e_healthcare/screens/manager/rooms/room_current.dart';
 import 'package:e_healthcare/screens/manager/rooms/room_status.dart';
+import 'package:e_healthcare/screens/manager/stocks/add_product.dart';
+import 'package:e_healthcare/screens/manager/stocks/add_stock.dart';
+import 'package:e_healthcare/screens/manager/stocks/product_list.dart';
 import 'package:e_healthcare/screens/manager/users/add_new_user.dart';
 import 'package:e_healthcare/screens/manager/users/search_user.dart';
 import 'package:e_healthcare/screens/patient/account/account_information.dart';
@@ -243,6 +246,60 @@ class _ManagerDashboardState extends State<ManagerDashboard> with RouteAware {
               ),
             ],
           ),
+
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(
+                'Stocks',
+                style: GoogleFonts.libreFranklin(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w700,
+                    color: kPrimaryLight
+                ),
+              ),
+
+              SizedBox(height: 10.0,),
+              SizedBox(
+                height: 110.0,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  children: [
+                    DashItemTile(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return ProductLIst(data: widget.data);
+                        }));
+                      },
+                      icon: FontAwesomeIcons.warehouse,
+                      text: 'Stocks',
+                    ),
+                    DashItemTile(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return AddStock(data: widget.data);
+                          }));
+                        },
+                        icon: FontAwesomeIcons.truckLoading,
+                        text: 'Add item to Stock'
+                    ),
+                    DashItemTile(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return AddProduct(data: widget.data,);
+                          }));
+                        },
+                        icon: FontAwesomeIcons.pills,
+                        text: 'Add new Product'
+                    ),
+
+                  ],
+                ),
+              )
+            ],
+          ),
+
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[

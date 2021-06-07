@@ -7,11 +7,17 @@ class DateInput extends StatefulWidget {
   final Function onChange;
   final bool update;
   final String initialValue;
+  final bool label;
+  final bool displayHintText;
+  final bool highLastDate;
 
   DateInput({
     @required this.onChange,
     this.update = false,
     this.initialValue = '',
+    this.label = true,
+    this.displayHintText = true,
+    this.highLastDate = false,
   }):assert(onChange != null);
 
   @override
@@ -34,10 +40,10 @@ class _DateInputState extends State<DateInput> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        IconTextLabel(
+        (widget.label)?IconTextLabel(
           iconData: Icons.calendar_today,
           text: 'Birth Date',
-        ),
+        ):SizedBox(),
         TextFormField(
           keyboardType: TextInputType.datetime,
           validator: (value) {
@@ -50,7 +56,7 @@ class _DateInputState extends State<DateInput> {
               context: context,
               initialDate: DateTime.now(),
               firstDate: DateTime(1900),
-              lastDate: DateTime.now(),
+              lastDate: (widget.highLastDate)?DateTime(2100):DateTime.now(),
             );
             dateController.text = date.toString().substring(0,10);
             widget.onChange(date.toString().substring(0,10));
@@ -61,7 +67,7 @@ class _DateInputState extends State<DateInput> {
           ),
           decoration: (widget.update)?
             kUpdateDetailsInputDecoration.copyWith(
-                hintText: 'yyyy-mm-dd'
+                hintText: (widget.displayHintText)?'yyyy-mm-dd':''
             ):
             kLoginRegisterInputDecoration.copyWith(
                 hintText: 'yyyy-mm-dd'

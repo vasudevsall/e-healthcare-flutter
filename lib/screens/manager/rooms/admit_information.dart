@@ -84,9 +84,9 @@ class _AdmitInformationState extends State<AdmitInformation> {
             SizedBox(height: 20.0,),
             DashCard(
               children: [
-                SimpleRowData(title: 'Admitted On', value: admitData['admit'], bold: false,),
-                SimpleRowData(title: 'Discharged On', value: (admitData['discharge'] == null)?'Admitted':admitData['discharge'], bold: false),
-                SimpleRowData(title: 'Bill', value: '${'\u20B9'} ${admitData['cost']}/-', bold: false),
+                SimpleRowData(title: 'Admitted On', value: admitData['admit'], bold: false, boldVal: false,),
+                SimpleRowData(title: 'Discharged On', value: (admitData['discharge'] == null)?'Admitted':admitData['discharge'], bold: false, boldVal: false,),
+                SimpleRowData(title: 'Bill', value: '${'\u20B9'} ${admitData['cost']}/-', bold: false, boldVal: false,),
               ]
             ),
             SizedBox(height: 5.0,),

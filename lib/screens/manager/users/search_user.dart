@@ -3,6 +3,7 @@ import 'package:e_healthcare/screens/manager/manager_drawer.dart';
 import 'package:e_healthcare/screens/patient/account/account_information.dart';
 import 'package:e_healthcare/screens/patient/user_scaffold.dart';
 import 'package:e_healthcare/services/manage_user_service.dart';
+import 'package:e_healthcare/widgets/search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -40,53 +41,33 @@ class _SearchUserState extends State<SearchUser> {
             children: [
               Text('Search Patient', style: kHeadTextStyle,),
               SizedBox(height: 20.0,),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      style: GoogleFonts.notoSans(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w700
-                      ),
-                      decoration: kUpdateDetailsInputDecoration.copyWith(
-                        hintText: 'Enter Phone Number',
-                      ),
-                      onChanged: (newVal) {
-                        phone = newVal;
-                      },
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      setState(() {
-                        _searching = true;
-                      });
-                      try {
-                        ManageUserService userService = ManageUserService();
+              SearchBar(
+                onPressed: () async {
+                  setState(() {
+                    _searching = true;
+                  });
+                  try {
+                    ManageUserService userService = ManageUserService();
 
-                        var resp = await userService.getUserDetails('phone', phone);
-                        setState(() {
-                          patients = resp.data;
-                          _searching = false;
-                        });
-                      } catch(e) {
-                        setState(() {
-                          _searching = false;
-                          respStr = e.response.data['message'];
-                        });
-                        print(e.response.data);
-                      }
-                    },
-                    child: Icon(
-                      FontAwesomeIcons.search
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: kPrimaryColor,
-                      padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 7.5),
-                    ),
-                  )
-                ],
+                    var resp = await userService.getUserDetails('phone', phone);
+                    setState(() {
+                      patients = resp.data;
+                      _searching = false;
+                    });
+                  } catch(e) {
+                    setState(() {
+                      _searching = false;
+                      respStr = e.response.data['message'];
+                    });
+                    print(e.response.data);
+                  }
+                },
+
+                hintText: 'Enter Phone Number',
+                onChanged: (newVal) {
+                  phone = newVal;
+                },
+                keyboardType: TextInputType.number,
               ),
               SizedBox(height: 20.0,),
               _generatePatientList()
